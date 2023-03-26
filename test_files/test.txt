@@ -1,0 +1,78 @@
+string menu <<  "(1) somma di due numeri\n" &
+                "(2) moltiplicazione di due numeri\n" &
+                "(3) divisione intera tra due numeri\n" &
+                "(4) elevamento a potenza\n" &
+                "(5) succesione di fibonacci\n";
+
+start: def inizio(): void{
+    string size << "piccolo";
+    var ans << "si";
+    integer op;
+    var num1 << 0.0, num2 << 0.0, num << 0;
+    while ans = "si" loop{
+        ("Scegli che operazione fare inserendo il numero corrispondente:\n", menu) -->!;
+        op <--;
+        if op = 1 or op = 2 or op = 3 or op = 4 then{
+            num1 <-- "inserisci in primo numero ";
+            num2 <-- "inserisci il secondo numero ";
+            if op = 3 then{
+                ("il risultato e': ",divIntera(num1,num2,size),", un numero " & size & "!") -->!;
+            }
+            else{
+                ("il risultato e': ",operazione(op,num1,num2)) -->!;
+            }
+        }
+        else{
+            if op = 5 then{
+                num <-- "inserisci un numero intero positivo ";
+                while num < 0 loop{
+                    num <-- "il numero deve essere positivo! Prova ad inserirlo di nuovo ";
+                }
+                ("il risultato e': ",fibonacci(num)) -->!;
+            }
+            else{
+                ("hai inserito un numero sbagliato!") -->!;
+            }
+        }
+        ans <-- "vuoi continuare? (si/no)";
+    }
+    ("Arrivederci :)") -->;
+}
+
+def operazione(integer op | float a | float b): float{
+    if op = 1 then{
+        return a + b;
+    }
+    if op = 2 then{
+        var result << 0.0;
+        while a >= 1 loop{
+            a << a-1;
+            result << result + b;
+        }
+        return result + (a*b);
+    }
+    if op = 4 then{
+        return a^b;
+    }
+}
+
+def divIntera(float a | float b | out string size): integer{
+    integer result << a/b;
+    if result >= setSize then{
+        size << "grande";
+    }
+    return result;
+}
+
+def fibonacci(integer a): integer{
+    integer risultato << 0;
+    if a = 0 then{
+        return 0;
+    }
+    if a = 1 then{
+        return 1;
+    }
+    return fibonacci(a-1) + fibonacci(a-2);
+}
+
+integer setSize << 100;
