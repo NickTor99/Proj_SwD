@@ -1,7 +1,7 @@
 package visitors;
 
 import exceptions.TypeMismatchException;
-import jflexcup.sym;
+import launcher.sym;
 
 public class TypeChecker{
 

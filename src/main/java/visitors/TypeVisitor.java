@@ -1,7 +1,7 @@
 package visitors;
 
 import table.*;
-import jflexcup.sym;
+import launcher.sym;
 import exceptions.*;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -34,7 +34,6 @@ sprintf(s, "%s%s", s1, i);
 return s;
 }
 #define setSize (int) 100
-#define menu (STRING) concat(concat(concat(concat("(1) somma di due numeri\n","(2) moltiplicazione di due numeri\n"),"(3) divisione intera tra due numeri\n"),"(4) elevamento a potenza\n"),"(5) succesione di fibonacci\n")
 // MAIN FUNCTION
 int main(int argc, char** argv){
 inizio();
@@ -46,6 +45,7 @@ int op;
 float num1 = 0.0;
 float num2 = 0.0;
 int num = 0;
+char *menu = concat(concat(concat(concat("(1) somma di due numeri\n","(2) moltiplicazione di due numeri\n"),"(3) divisione intera tra due numeri\n"),"(4) elevamento a potenza\n"),"(5) succesione di fibonacci\n");
 char *size = "piccolo";
 while(!strcmp(ans,"si")){
 printf("%s","Scegli che operazione fare inserendo il numero corrispondente:\n");

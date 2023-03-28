@@ -2,32 +2,48 @@ package launcher;
 
 import nodes.*;
 import visitors.*;
+
+import java.awt.*;
 import java.io.*;
-import jflexcup.*;
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String[] array = args[0].split("/");
-        String nomeFile = array[array.length-1];
-        String inPathFile = args[0];
+        //String[] array = args[0].split("/");
+        //String nomeFile = array[array.length-1];
+        //String inPathFile = args[0];
+        File initialFile = new File("test_files/test.txt");
+        InputStream in = new FileInputStream(initialFile);
+        if(in == null){
+            throw new Error("FILE NON TROVATO!");
+        }
+        BufferedReader input = new BufferedReader(new InputStreamReader(in));
+        String nomeFile = "test.txt";
         String cGenerated = "test_files/c_out/"+nomeFile.substring(0,nomeFile.length()-4)+".c";
 
-        parser p = new parser(new Lexer(new FileReader(new File(inPathFile))));
-
+        parser p = new parser(new Lexer(input));
+        System.out.println("Parsing process done!");
         ProgramOp programOp = (ProgramOp) p.parse().value;
 
         ScopingVisitor scopeVisitor = new ScopingVisitor();
         scopeVisitor.visit(programOp);
         //printScopes(programOp); // stampo le symbol table di ogni scope per testare il corretto funzionamento della visita
         TypeVisitor typeCheckerVisitor = new TypeVisitor();
+        System.out.println("Semantic analysis done!");
         typeCheckerVisitor.visit(programOp);
         XMLVisitor xmlVisitor = new XMLVisitor();
         fileGenerator(xmlVisitor.visit(programOp),"ast.xml"); // genero il file ast.xml per visualizzare l'albero sintattico
         CVisitor cGenerator = new CVisitor();
         String cCode = cGenerator.visit(programOp);
+        System.out.println("C code generation done!");
         //System.out.println(cCode);
         fileGenerator(cCode,cGenerated);
+        Runtime rt = Runtime.getRuntime();
+        String cCompilerCmd = "gcc C:\\Users\\Home\\Desktop\\Proj_SwD\\test_files\\c_out\\test.c";
+        rt.exec(cCompilerCmd);
+        System.out.println("Starting Execution...");
+        Desktop desktop = Desktop.getDesktop();
+        desktop.open(new File("C:\\Users\\Home\\Desktop\\Proj_SwD\\a.exe"));
     }
 
 

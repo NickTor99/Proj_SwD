@@ -26,7 +26,7 @@ public class ProgramOp extends AbstractSyntaxNode{
     }
 
     public void setVarDeclList(ArrayList<VarDeclOp> varDeclList) {
-        varDeclList = varDeclList;
+        this.varDeclList = varDeclList;
     }
 
     public ArrayList<IsMainFunOp> getFunList() {

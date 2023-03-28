@@ -1,10 +1,9 @@
-string menu <<  "(1) somma di due numeri\n" &
-                "(2) moltiplicazione di due numeri\n" &
-                "(3) divisione intera tra due numeri\n" &
-                "(4) elevamento a potenza\n" &
-                "(5) succesione di fibonacci\n";
-
 start: def inizio(): void{
+    string menu <<  "(1) somma di due numeri\n" &
+                    "(2) moltiplicazione di due numeri\n" &
+                    "(3) divisione intera tra due numeri\n" &
+                    "(4) elevamento a potenza\n" &
+                    "(5) succesione di fibonacci\n";
     string size << "piccolo";
     var ans << "si";
     integer op;

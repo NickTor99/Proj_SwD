@@ -4,7 +4,6 @@
 
 package launcher;
 import java_cup.runtime.*;
-import jflexcup.sym;
 
 
 // See https://github.com/jflex-de/jflex/issues/222

@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import exceptions.*;
 
-import java.util.List;
 import java.util.Stack;
 
 import table.*;
-import jflexcup.sym;
+import launcher.sym;
 import nodes.*;
 
 public class CVisitor implements Visitor{

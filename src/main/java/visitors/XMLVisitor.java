@@ -1,7 +1,6 @@
 package visitors;
 
-import com.sun.tools.javac.Main;
-import jflexcup.sym;
+import launcher.sym;
 import nodes.*;
 
 import java.util.ArrayList;
