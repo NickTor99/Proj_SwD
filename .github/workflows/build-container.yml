@@ -1,4 +1,4 @@
-name: docker-ci-config
+name: Docker Container
 
 on:
   push:
