@@ -1,5 +1,6 @@
-FROM maven:3.8.3-openjdk-17
+FROM ubuntu:latest
 WORKDIR /app
+RUN apt-get update && apt-get install -y gcc && apt-get install -y maven && apt-get install -y openjdk-17-jdk
 COPY pom.xml ./
 COPY src ./src
 COPY test_files ./test_files

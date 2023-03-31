@@ -2,16 +2,12 @@ package launcher;
 
 import nodes.*;
 import visitors.*;
-
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        //String[] array = args[0].split("/");
-        //String nomeFile = array[array.length-1];
-        //String inPathFile = args[0];
         File initialFile = new File("test_files/test.txt");
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
@@ -36,18 +32,12 @@ public class Main {
         CVisitor cGenerator = new CVisitor();
         String cCode = cGenerator.visit(programOp);
         System.out.println("C code generation done!");
-        //System.out.println(cCode);
         fileGenerator(cCode,cGenerated);
+
         Runtime rt = Runtime.getRuntime();
-        String cCompilerCmd = "gcc C:\\Users\\Home\\Desktop\\Proj_SwD\\test_files\\c_out\\test.c";
+        String cCompilerCmd = "gcc "+cGenerated;
         rt.exec(cCompilerCmd);
-        System.out.println("Starting Execution...");
-        Desktop desktop = Desktop.getDesktop();
-        desktop.open(new File("C:\\Users\\Home\\Desktop\\Proj_SwD\\a.exe"));
     }
-
-
-
 
     private static void fileGenerator(String txt,String filePath){
         try {
