@@ -8,6 +8,7 @@ import java_cup.runtime.*;
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
+public
 class Lexer implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file. */
@@ -402,7 +403,7 @@ class Lexer implements java_cup.runtime.Scanner {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  Lexer(java.io.Reader in) {
+  public Lexer(java.io.Reader in) {
     this.zzReader = in;
   }
 

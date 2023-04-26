@@ -55,14 +55,6 @@ def operazione(integer op | float a | float b): float{
     }
 }
 
-def divIntera(float a | float b | out string size): integer{
-    integer result << a/b;
-    if result >= setSize then{
-        size << "grande";
-    }
-    return result;
-}
-
 def fibonacci(integer a): integer{
     integer risultato << 0;
     if a = 0 then{
@@ -72,6 +64,14 @@ def fibonacci(integer a): integer{
         return 1;
     }
     return fibonacci(a-1) + fibonacci(a-2);
+}
+
+def divIntera(float a | float b | out string size): integer{
+    integer result << a/b;
+    if result >= setSize then{
+        size << "grande";
+    }
+    return result;
 }
 
 integer setSize << 100;

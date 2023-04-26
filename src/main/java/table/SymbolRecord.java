@@ -11,6 +11,10 @@ public class SymbolRecord {
     private int returnType;
     private boolean pointer = false;
 
+    public SymbolRecord() {
+
+    }
+
     public SymbolRecord(String symbolName, String kind, int type) {
         this.symbolName = symbolName;
         this.kind = kind;
@@ -90,7 +94,7 @@ public class SymbolRecord {
 
     @Override
     public String toString() {
-        if(kind == "fun"){
+        if(kind.equals("fun")){
             return "\n"+"SYMBOL:"+ symbolName + ", KIND:"+ kind + ", PARAM TYPES:" + paramsType + " PARAM OUT:"+ paramsOut +", RETURN TYPE:" + returnType;
         }
         if(pointer){

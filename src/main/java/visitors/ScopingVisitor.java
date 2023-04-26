@@ -3,6 +3,7 @@ package visitors;
 import table.*;
 import launcher.sym;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 import nodes.*;
 
@@ -151,6 +152,7 @@ public class ScopingVisitor implements Visitor{
 
     void visitBodyOp(BodyOp node){
         ArrayList<VarDeclOp> varDeclList = node.getVarDeclListOp();
+        Collections.reverse(varDeclList);
         if(varDeclList != null){
             for(VarDeclOp varDecl : varDeclList){
                 varDecl.accept(this);

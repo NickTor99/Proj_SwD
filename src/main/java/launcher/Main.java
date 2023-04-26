@@ -25,6 +25,7 @@ public class Main {
         scopeVisitor.visit(programOp);
         //printScopes(programOp); // stampo le symbol table di ogni scope per testare il corretto funzionamento della visita
         TypeVisitor typeCheckerVisitor = new TypeVisitor();
+        System.out.println(programOp.getSymbolTable());
         System.out.println("Semantic analysis done!");
         typeCheckerVisitor.visit(programOp);
         XMLVisitor xmlVisitor = new XMLVisitor();

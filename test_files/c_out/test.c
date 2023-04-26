@@ -6,8 +6,8 @@
 #define true 1
 #define false 0
 void inizio();
-int fibonacci(int);
 int divIntera(float,float,char **);
+int fibonacci(int);
 float operazione(int,float,float);
 char* intToString(int var){
 char *int_str = malloc(256) ;
@@ -92,6 +92,13 @@ scanf("%s",ans);
 }
 printf("%s","Arrivederci :)");
 }
+int divIntera(float a,float b,char **size){
+int result = (a / b);
+if((result >= setSize)){
+*size = "grande";
+}
+return result;
+}
 int fibonacci(int a){
 int risultato = 0;
 if((a == 0)){
@@ -101,13 +108,6 @@ if((a == 1)){
 return 1;
 }
 return (fibonacci((a - 1)) + fibonacci((a - 2)));
-}
-int divIntera(float a,float b,char **size){
-int result = (a / b);
-if((result >= setSize)){
-*size = "grande";
-}
-return result;
 }
 float operazione(int op,float a,float b){
 if((op == 1)){

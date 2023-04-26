@@ -1,8 +1,9 @@
 package table;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-public class SymbolTable extends HashMap<String,SymbolRecord>{
+public class SymbolTable extends LinkedHashMap<String,SymbolRecord> {
     private String nomeScope;
 
     private String nomeFunzione;
