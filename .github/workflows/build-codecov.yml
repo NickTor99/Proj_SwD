@@ -26,6 +26,6 @@ jobs:
           mvn jacoco:report-aggregate
 
       - name: Upload coverage report to Codecov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
