@@ -26,7 +26,7 @@ class ScopingVisitorTest {
     private ArrayList<SymbolRecord> forStatOpAssertions = new ArrayList<>();
 
     ScopingVisitorTest() throws Exception {
-        File initialFile = new File("fileScopingTest.txt");
+        File initialFile = new File("src/test/java/fileScopingTest");
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
             throw new Error("SCOPING TEST FILE NOT FOUND");
@@ -47,7 +47,7 @@ class ScopingVisitorTest {
                 forStat = (ForStatOp) statList.get(i);
             }
         }
-        readRecordFromFile("outScopingTest.txt");
+        readRecordFromFile("src/test/java/outScopingTest");
         scopeVisitor.visitProgramOp(programOp);
     }
 
