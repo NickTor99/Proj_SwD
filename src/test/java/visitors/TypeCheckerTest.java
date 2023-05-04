@@ -63,6 +63,14 @@ class TypeCheckerTest {
         assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.STRING, sym.CHAR));
         assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.CHAR, sym.STRING));
         assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.CHAR, sym.CHAR));
+        assertThrows(TypeMismatchException.class, () -> TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.VOID, sym.INTEGER));
+
+        // POW
+        assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.INTEGER, sym.INTEGER));
+        assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.INTEGER, sym.REAL));
+        assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.REAL, sym.INTEGER));
+        assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.REAL, sym.REAL));
+        assertThrows(TypeMismatchException.class, () -> TypeChecker.binaryOpChecker(TypeChecker.POW, sym.STRING, sym.INTEGER));
     }
     @Test
     void testUnaryOpChecker() {
@@ -75,17 +83,27 @@ class TypeCheckerTest {
         assertEquals(sym.BOOL, TypeChecker.unaryOpChecker(TypeChecker.BOOLEANOP, sym.BOOL));
         assertThrows(Error.class, () -> TypeChecker.unaryOpChecker(TypeChecker.BOOLEANOP, sym.STRING));
 
+        assertThrows(Error.class, () -> TypeChecker.unaryOpChecker(TypeChecker.POW,sym.INTEGER));
     }
 
     @Test
     void testAssignOpChecker() {
-        // Test valid assignment operations
+        // Test valid assignments
         assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.INTEGER, sym.INTEGER));
-        assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.REAL, sym.REAL));
         assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.REAL, sym.INTEGER));
+        assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.INTEGER, sym.REAL));
+        assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.REAL, sym.REAL));
+        assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.STRING, sym.STRING));
+        assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.BOOL, sym.BOOL));
+        assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.INTEGER, sym.BOOL));
+        assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.BOOL, sym.INTEGER));
+        assertEquals(sym.VOID, TypeChecker.AssignOpChecker(sym.CHAR, sym.CHAR));
 
-        // Test invalid assignment operations
-        assertThrows(TypeMismatchException.class, () -> TypeChecker.AssignOpChecker(sym.CHAR, sym.REAL));
+        // Test invalid assignments
+        assertThrows(TypeMismatchException.class, () -> TypeChecker.AssignOpChecker(sym.REAL, sym.STRING));
+        assertThrows(TypeMismatchException.class, () -> TypeChecker.AssignOpChecker(sym.STRING, sym.INTEGER));
+        assertThrows(TypeMismatchException.class, () -> TypeChecker.AssignOpChecker(sym.BOOL, sym.STRING));
+        assertThrows(TypeMismatchException.class, () -> TypeChecker.AssignOpChecker(sym.INTEGER, sym.CHAR));
         assertThrows(TypeMismatchException.class, () -> TypeChecker.AssignOpChecker(sym.CHAR, sym.INTEGER));
     }
 
