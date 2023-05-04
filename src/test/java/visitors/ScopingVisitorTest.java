@@ -59,6 +59,7 @@ class ScopingVisitorTest {
         ArrayList<AbstractSyntaxNode> declList = new ArrayList<>();
         declList.add(new VarDeclOp("VAR",new IdInit(new IdExprNode("ID","global"),null,new ConstExprNode("INTEGER_CONST","0"))));
         programOp = new ProgramOp(declList,mainFun,new ArrayList<AbstractSyntaxNode>());
+
         scopeVisitor.visit(programOp);
         readRecordFromFile("src/test/java/outScopingTest");
     }
