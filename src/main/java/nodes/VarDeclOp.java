@@ -11,6 +11,12 @@ public class VarDeclOp extends AbstractSyntaxNode{
         this.idInitList = idInitList;
     }
 
+    public VarDeclOp(String varType, IdInit idInit) {
+        idInitList = new ArrayList<>();
+        this.varType = varType;
+        this.idInitList.add(idInit);
+    }
+
     public String getVarType() {
         return varType;
     }

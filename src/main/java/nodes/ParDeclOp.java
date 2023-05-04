@@ -13,6 +13,13 @@ public class ParDeclOp extends AbstractSyntaxNode{
         this.idList = idList;
     }
 
+    public ParDeclOp(String mode, String varType, IdInit id) {
+        idList = new ArrayList<>();
+        this.mode = mode;
+        this.varType = varType;
+        this.idList.add(id);
+    }
+
     public String getMode() {
         return mode;
     }

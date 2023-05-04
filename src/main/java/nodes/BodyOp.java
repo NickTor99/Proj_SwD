@@ -13,6 +13,12 @@ public class BodyOp extends AbstractSyntaxNode{
         this.statList = statList;
     }
 
+    public BodyOp(VarDeclOp varDecl, ArrayList<StatOp> statList) {
+        varDeclListOp = new ArrayList<>();
+        this.varDeclListOp.add(varDecl);
+        this.statList = statList;
+    }
+
     public ArrayList<VarDeclOp> getVarDeclListOp() {
         return varDeclListOp;
     }

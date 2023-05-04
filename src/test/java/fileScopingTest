@@ -1,19 +1,21 @@
 var global << 0;
 
 start: def test(integer param | out string outPar): void{
-    var str << "prova";
-    integer v1 << 5;
-    float v2 << 5.0;
-    boolean v3 << true;
-    if v2 = 5.0 then{
+    var cond << 100;
+    float v1;
+    char v2;
+    boolean v3;
+    if cond = 99 then{
          var v1 << "test";
     }
-    while v1 <= 6 loop{
-        var v2 << "test";
-        v1 << v1 + 1;
+    else{
+        integer outPar;
     }
-    for i<<0 to 3 loop{
-        var v3 << "test";
+    while cond = 100 loop{
+        float cond << 3.5;
+    }
+    for v2<<0 to 3 loop{
+        string v3;
     }
 }
 

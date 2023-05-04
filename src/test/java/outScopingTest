@@ -6,21 +6,25 @@ end
 testFunOp
 param,param,43,,,,false
 outPar,param,6,,,,true
-str,var,6,,,,
-v1,var,43,,,,
-v2,var,44,,,,
 v3,var,7,,,,
+v2,var,8,,,,
+v1,var,44,,,,
+cond,var,43,,,,
 end
 
 testIfStatOp
 v1,var,6,,,,
 end
 
+testElseStatOp
+outPar,var,43,,,,
+end
+
 testForStatOp
-i,var,43,,,,
+v2,var,43,,,,
 v3,var,6,,,,
 end
 
 testWhileOp
-v2,var,6,,,,
+cond,var,44,,,,
 end
