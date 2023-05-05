@@ -1,7 +1,9 @@
 package visitors;
 
+import exceptions.TypeMismatchException;
 import launcher.Lexer;
 import launcher.parser;
+import launcher.sym;
 import nodes.*;
 import table.SymbolRecord;
 import table.SymbolTable;
@@ -14,6 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ScopingVisitorTest {
     private ProgramOp programOp;
+    private ProgramOp invalidProgramOp1;
+    private ProgramOp invalidProgramOp2;
+    private ProgramOp invalidProgramOp3;
+    private ProgramOp invalidProgramOp4;
     private IsMainFunOp mainFun;
     private IfStatOp ifStat;
     private WhileOp whileStat;
@@ -27,6 +33,8 @@ class ScopingVisitorTest {
     private ArrayList<SymbolRecord> forStatOpAssertions = new ArrayList<>();
 
     ScopingVisitorTest() throws Exception {
+        ArrayList<AbstractSyntaxNode> emptyList = new ArrayList<>();
+        //valid programOp build
         ArrayList<VarDeclOp> varDeclList = new ArrayList<>();
         varDeclList.add(new VarDeclOp("VAR",new IdInit(new IdExprNode("ID","cond"),null,new ConstExprNode("INTEGER_CONST","100"))));
         varDeclList.add(new VarDeclOp("REAL",new IdInit(new IdExprNode("ID","v1"),null,null)));
@@ -58,7 +66,34 @@ class ScopingVisitorTest {
         mainFun = new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),parDeclList,"VOID",body));
         ArrayList<AbstractSyntaxNode> declList = new ArrayList<>();
         declList.add(new VarDeclOp("VAR",new IdInit(new IdExprNode("ID","global"),null,new ConstExprNode("INTEGER_CONST","0"))));
-        programOp = new ProgramOp(declList,mainFun,new ArrayList<AbstractSyntaxNode>());
+        programOp = new ProgramOp(declList,mainFun,emptyList);
+
+        //invalid programOp build 1 (variable already declared in the scope)
+        ArrayList<VarDeclOp> invalidVarDeclList = new ArrayList<>();
+        invalidVarDeclList.add(new VarDeclOp("VAR",new IdInit(new IdExprNode("ID","v1"),null,new ConstExprNode("INTEGER_CONST","100"))));
+        invalidVarDeclList.add(new VarDeclOp("VAR",new IdInit(new IdExprNode("ID","v1"),null,new ConstExprNode("STRING_CONST","ALREADY_DECLARED"))));
+        IsMainFunOp invalidMainFun = new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),null,"VOID",new BodyOp(invalidVarDeclList,null)));
+        invalidProgramOp1 = new ProgramOp(emptyList,invalidMainFun,emptyList);
+
+        //invalid programOp build 2 (variable already declared in the scope)
+        ArrayList<VarDeclOp> invalidVarDeclList2 = new ArrayList<>();
+        invalidVarDeclList2.add(new VarDeclOp("INTEGER",new IdInit(new IdExprNode("ID","v1"),null,new ConstExprNode("INTEGER_CONST","100"))));
+        invalidVarDeclList2.add(new VarDeclOp("STRING",new IdInit(new IdExprNode("ID","v1"),null,new ConstExprNode("STRING_CONST","ALREADY_DECLARED"))));
+        IsMainFunOp invalidMainFun2 = new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),null,"VOID",new BodyOp(invalidVarDeclList,null)));
+        invalidProgramOp2 = new ProgramOp(emptyList,invalidMainFun2,emptyList);
+
+        //invalid programOp build 3 (functions with the same identifier)
+        IsMainFunOp invalidMainFun3 = new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),null,"VOID",new BodyOp(new ArrayList<>(),null)));
+        ArrayList<AbstractSyntaxNode> invalidFunctions = new ArrayList<>();
+        invalidFunctions.add(new IsMainFunOp(false,new FunOp(new IdExprNode("ID","test"),null,"INTEGER",new BodyOp(new ArrayList<>(),null))));
+        invalidProgramOp3 = new ProgramOp(invalidFunctions,invalidMainFun3,emptyList);
+
+        //invalid programOp build 4 (function parameter already declared)
+        ArrayList<ParDeclOp> invalidParDeclList = new ArrayList<>();
+        invalidParDeclList.add(new ParDeclOp("IN","INTEGER",new IdInit(new IdExprNode("ID","v1"),null,null)));
+        invalidParDeclList.add(new ParDeclOp("IN","INTEGER",new IdInit(new IdExprNode("ID","v1"),null,null)));
+        IsMainFunOp invalidMainFun4 = new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),invalidParDeclList,"VOID",new BodyOp(new ArrayList<>(),null)));
+        invalidProgramOp4 = new ProgramOp(emptyList,invalidMainFun4,emptyList);
 
         scopeVisitor.visit(programOp);
         readRecordFromFile("src/test/java/outScopingTest");
@@ -90,6 +125,12 @@ class ScopingVisitorTest {
             assertEquals(record.isPointer(),programOpAssertions.get(i).isPointer());
             i++;
         }
+
+        //invalid inputs
+        assertThrows(Error.class, () -> scopeVisitor.visit(invalidProgramOp1));
+        assertThrows(Error.class, () -> scopeVisitor.visit(invalidProgramOp2));
+        assertThrows(Error.class, () -> scopeVisitor.visit(invalidProgramOp3));
+        assertThrows(Error.class, () -> scopeVisitor.visit(invalidProgramOp4));
     }
 
     @org.junit.jupiter.api.Test
