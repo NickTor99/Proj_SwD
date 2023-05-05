@@ -79,7 +79,7 @@ class ScopingVisitorTest {
         ArrayList<VarDeclOp> invalidVarDeclList2 = new ArrayList<>();
         invalidVarDeclList2.add(new VarDeclOp("INTEGER",new IdInit(new IdExprNode("ID","v1"),null,new ConstExprNode("INTEGER_CONST","100"))));
         invalidVarDeclList2.add(new VarDeclOp("STRING",new IdInit(new IdExprNode("ID","v1"),null,new ConstExprNode("STRING_CONST","ALREADY_DECLARED"))));
-        IsMainFunOp invalidMainFun2 = new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),null,"VOID",new BodyOp(invalidVarDeclList,null)));
+        IsMainFunOp invalidMainFun2 = new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),null,"VOID",new BodyOp(invalidVarDeclList2,null)));
         invalidProgramOp2 = new ProgramOp(emptyList,invalidMainFun2,emptyList);
 
         //invalid programOp build 3 (functions with the same identifier)

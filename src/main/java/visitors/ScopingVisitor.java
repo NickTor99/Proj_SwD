@@ -43,13 +43,13 @@ public class ScopingVisitor implements Visitor{
         node.setSymbolTable(symbolTable);
 
         ArrayList<VarDeclOp> varDeclList = node.getVarDeclList();
-        if(varDeclList != null){
+        if(varDeclList != null && !varDeclList.isEmpty()){
             for(VarDeclOp varDecl : varDeclList){
                 varDecl.accept(this);
             }
         }
         ArrayList<IsMainFunOp> funList = node.getFunList();
-        if(funList != null){
+        if(funList != null && !funList.isEmpty()){
             for(IsMainFunOp funOp : funList){
                 funOp.accept(this);
             }
@@ -153,13 +153,13 @@ public class ScopingVisitor implements Visitor{
     void visitBodyOp(BodyOp node){
         ArrayList<VarDeclOp> varDeclList = node.getVarDeclListOp();
         Collections.reverse(varDeclList);
-        if(varDeclList != null){
+        if(varDeclList != null && !varDeclList.isEmpty()){
             for(VarDeclOp varDecl : varDeclList){
                 varDecl.accept(this);
             }
         }
         ArrayList<StatOp> statList = node.getStatList();
-        if(statList != null){
+        if(statList != null && !statList.isEmpty()){
             for(StatOp statOp : statList){
                 if(statOp != null) {
                     statOp.accept(this);
