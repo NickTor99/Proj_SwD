@@ -44,26 +44,28 @@ public class TypeChecker{
         if(op.equals(ARITMETIC)){
             if (type1 == sym.INTEGER && type2 == sym.INTEGER) {
                 return sym.INTEGER;
-            } else if (type1 == sym.INTEGER && type2 == sym.REAL) {
-                return sym.REAL;
             } else if (type1 == sym.REAL && type2 == sym.REAL) {
+                return sym.REAL;
+            } else if (type1 == sym.INTEGER && type2 == sym.REAL) {
                 return sym.REAL;
             } else if (type1 == sym.REAL && type2 == sym.INTEGER) {
                 return sym.REAL;
+            } else {
+                throw new TypeMismatchException("Il tipo " + type1 + " e il tipo " + type2 + " sono incompatibili");
             }
-            throw new TypeMismatchException("Il tipo " + type1 + " e il tipo " + type2 + " sono incompatibili");
         }
         else if(op.equals(DIV)){
             if (type1 == sym.INTEGER && type2 == sym.INTEGER) {
                 return sym.REAL;
-            } else if (type1 == sym.INTEGER && type2 == sym.REAL) {
-                return sym.REAL;
             } else if (type1 == sym.REAL && type2 == sym.REAL) {
+                return sym.REAL;
+            } else if (type1 == sym.INTEGER && type2 == sym.REAL) {
                 return sym.REAL;
             } else if (type1 == sym.REAL && type2 == sym.INTEGER) {
                 return sym.REAL;
+            }else {
+                throw new TypeMismatchException("Il tipo " + type1 + " e il tipo " + type2 + " sono incompatibili");
             }
-            throw new TypeMismatchException("Il tipo " + type1 + " e il tipo " + type2 + " sono incompatibili");
         }
         else if(op.equals(STRINGCONCAT)){
             if(type1 != sym.VOID && type2 != sym.VOID){
@@ -111,9 +113,6 @@ public class TypeChecker{
             } else if(type1 == sym.REAL && type2 == sym.REAL){
                 return sym.REAL;
             }
-            throw new TypeMismatchException("Il tipo " + type1 + " e il tipo " + type2 + " sono incompatibili");
-        }
-        else{
             throw new TypeMismatchException("Il tipo " + type1 + " e il tipo " + type2 + " sono incompatibili");
         }
         throw new Error("Operazione non consentita");

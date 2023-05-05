@@ -47,9 +47,9 @@ class TypeCheckerTest {
 
         // RELOP
         assertEquals(sym.BOOL, TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.INTEGER, sym.REAL));
-        assertEquals(sym.BOOL, TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.INTEGER, sym.INTEGER));
-        assertEquals(sym.BOOL, TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.REAL, sym.REAL));
         assertEquals(sym.BOOL, TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.REAL, sym.INTEGER));
+        assertEquals(sym.BOOL, TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.REAL, sym.REAL));
+        assertEquals(sym.BOOL, TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.INTEGER, sym.INTEGER));
         assertEquals(sym.BOOL, TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.STRING, sym.CHAR));
         assertEquals(sym.BOOL, TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.CHAR, sym.CHAR));
         assertThrows(TypeMismatchException.class, () -> TypeChecker.binaryOpChecker(TypeChecker.RELOP, sym.STRING, sym.INTEGER));
@@ -60,16 +60,16 @@ class TypeCheckerTest {
 
         // STRINGCONCAT
         assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.STRING, sym.STRING));
-        assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.STRING, sym.CHAR));
-        assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.CHAR, sym.STRING));
         assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.CHAR, sym.CHAR));
-        assertThrows(TypeMismatchException.class, () -> TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.VOID, sym.INTEGER));
+        assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.CHAR, sym.STRING));
+        assertEquals(sym.STRING, TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.STRING, sym.CHAR));
+        assertThrows(TypeMismatchException.class, () -> TypeChecker.binaryOpChecker(TypeChecker.STRINGCONCAT, sym.INTEGER, sym.VOID));
 
         // POW
         assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.INTEGER, sym.INTEGER));
-        assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.INTEGER, sym.REAL));
-        assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.REAL, sym.INTEGER));
         assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.REAL, sym.REAL));
+        assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.REAL, sym.INTEGER));
+        assertEquals(sym.REAL, TypeChecker.binaryOpChecker(TypeChecker.POW, sym.INTEGER, sym.REAL));
         assertThrows(TypeMismatchException.class, () -> TypeChecker.binaryOpChecker(TypeChecker.POW, sym.STRING, sym.INTEGER));
     }
     @Test
