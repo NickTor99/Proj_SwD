@@ -10,9 +10,25 @@ import nodes.*;
 
 public class TypeVisitor implements Visitor{
 
-    private final Stack<SymbolTable> activeStackScope;
+    private Stack<SymbolTable> activeStackScope;
     private SymbolTable symbolTable;
     private boolean hasReturn = false;
+
+    public boolean isHasReturn() {
+        return hasReturn;
+    }
+
+    public void setHasReturn(boolean hasReturn) {
+        this.hasReturn = hasReturn;
+    }
+
+    public Stack<SymbolTable> getActiveStackScope() {
+        return activeStackScope;
+    }
+
+    public void setActiveStackScope(Stack<SymbolTable> activeStackScope) {
+        this.activeStackScope = activeStackScope;
+    }
 
     public TypeVisitor() {
         activeStackScope = new Stack<>();
@@ -172,6 +188,7 @@ public class TypeVisitor implements Visitor{
             }
         }
         activeStackScope.pop();
+        node.setType(sym.VOID);
     }
 
     void visitVarDeclOp(VarDeclOp node){
@@ -212,7 +229,7 @@ public class TypeVisitor implements Visitor{
         BodyOp body = fun.getBody();
         body.accept(this);
         if(fun.getReturnType().equals("VOID") && hasReturn){
-            throw new Error("la funzione " + fun.getId().getNameId() + "è di tipo void, quindi non deve avere un valore di ritorno");
+            throw new Error("la funzione " + fun.getId().getNameId() + " è di tipo void, quindi non deve avere un valore di ritorno");
         }
         if(!fun.getReturnType().equals("VOID") && !hasReturn){
             throw new Error("valore di ritorno mancante per la funzione "+ fun.getId().getNameId());

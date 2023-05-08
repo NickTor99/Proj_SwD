@@ -56,7 +56,6 @@ public class ScopingVisitor implements Visitor{
         }
 
         activeStackScope.pop();
-        node.setType(sym.VOID);
     }
 
     void visitVarDeclOp(VarDeclOp node){
