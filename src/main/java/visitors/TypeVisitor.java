@@ -305,7 +305,7 @@ public class TypeVisitor implements Visitor{
     void visitReturnStatOp(ReturnStatOp node){
         hasReturn = true;
         Stack<SymbolTable> stack = (Stack) activeStackScope.clone();
-        while(stack.peek().getNomeScope() != "FUN"){ // trova la funzione a cui il return è riferito
+        while(stack.isEmpty() || stack.peek().getNomeScope() != "FUN"){ // trova la funzione a cui il return è riferito
             if(!stack.isEmpty()){
                 stack.pop();
             }

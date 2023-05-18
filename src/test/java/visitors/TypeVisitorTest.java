@@ -1,5 +1,6 @@
 package visitors;
 
+import exceptions.TypeMismatchException;
 import launcher.sym;
 import nodes.*;
 import org.junit.jupiter.api.AfterEach;
@@ -33,7 +34,9 @@ class TypeVisitorTest {
         parType.add(sym.INTEGER);parType.add(sym.STRING);
         paramsOut.add(false);paramsOut.add(true);
         symbolTable.put("notVoidFun",new SymbolRecord("notVoidFun","fun",parType,paramsOut,sym.INTEGER));
+        symbolTable.put("returnFun",new SymbolRecord("returnFun","fun",null,null,sym.INTEGER));
         symbolTable.put("voidFun",new SymbolRecord("voidFun","fun",null,null,sym.VOID));
+        symbolTable.put("outPar",new SymbolRecord("outPAr","par",sym.STRING,true));
 
         Stack<SymbolTable> scope = new Stack<>();
         scope.push(symbolTable);
@@ -170,10 +173,72 @@ class TypeVisitorTest {
 
     @Test
     void visitCallFunOp() {
+        // good function call
+        ArrayList<CallParamOp> callParams = new ArrayList<>();
+        callParams.add(new CallParamOp(new IdExprNode("ID","outPar"),true));
+        callParams.add(new CallParamOp(new ConstExprNode("INTEGER_CONST","10"),false));
+        CallFunOp callFun = new CallFunOp("CALLFUN",new IdExprNode("ID","notVoidFun"),callParams);
+        typeVisitor.visit(callFun);
+        assertEquals(sym.INTEGER,callFun.getType());
+        assertEquals(sym.INTEGER,callFun.getId().getType());
+
+        // wrong type parameter function call
+        callParams.clear();
+        callParams.add(new CallParamOp(new IdExprNode("ID","outPar"),false));
+        callParams.add(new CallParamOp(new ConstExprNode("STRING_CONST","10"),false));
+        CallFunOp wrongTypeCallFun = new CallFunOp("CALLFUN",new IdExprNode("ID","notVoidFun"),callParams);
+        assertThrows(TypeMismatchException.class,() -> typeVisitor.visit(wrongTypeCallFun));
+
+        //wrong number of parameter function call
+        callParams.clear();
+        callParams.add(new CallParamOp(new IdExprNode("ID","outPar"),true));
+        callParams.add(new CallParamOp(new ConstExprNode("INTEGER_CONST","10"),false));
+        callParams.add(new CallParamOp(new ConstExprNode("STRING_CONST","10"),false));
+        CallFunOp wrongNumCallFun = new CallFunOp("CALLFUN",new IdExprNode("ID","notVoidFun"),callParams);
+        assertThrows(Error.class,() -> typeVisitor.visit(wrongNumCallFun));
+
+        //wrong out parameter function call
+        callParams.clear();
+        callParams.add(new CallParamOp(new ConstExprNode("STRING_CONST","10"),false));
+        callParams.add(new CallParamOp(new ConstExprNode("INTEGER_CONST","10"),false));
+        CallFunOp wrongOutParCallFun = new CallFunOp("CALLFUN",new IdExprNode("ID","notVoidFun"),callParams);
+        assertThrows(Error.class,() -> typeVisitor.visit(wrongOutParCallFun));
+
     }
 
     @Test
     void visitReturnStatOp() {
+        // right return statement
+        SymbolTable funTable = new SymbolTable("FUN","returnFun");
+        funTable.put("var1",new SymbolRecord("var1","var",sym.INTEGER));
+        SymbolTable ifTable = new SymbolTable("IF");
+        typeVisitor.getActiveStackScope().push(funTable);
+        typeVisitor.getActiveStackScope().push(ifTable);
+        ReturnStatOp rtrn = new ReturnStatOp("RETURN",new IdExprNode("ID","var1"));
+        typeVisitor.visit(rtrn);
+        assertEquals(sym.VOID,rtrn.getType());
+
+        typeVisitor.getActiveStackScope().pop();
+        typeVisitor.getActiveStackScope().pop();
+
+        // variable and function name conflict
+        SymbolTable wrongFunTable = new SymbolTable("FUN","v1");
+        typeVisitor.getActiveStackScope().push(wrongFunTable);
+        assertThrows(Error.class,() -> typeVisitor.visit(rtrn));
+
+        // missing function for the return statement
+        typeVisitor.getActiveStackScope().pop();
+        typeVisitor.getActiveStackScope().push(ifTable);
+        assertThrows(Error.class,() -> typeVisitor.visit(rtrn));
+
+        typeVisitor.getActiveStackScope().pop();
+
+        // type mismatch between return type and function type
+        funTable.put("var2",new SymbolRecord("var2","var",sym.CHAR));
+        ReturnStatOp wrongRtrn = new ReturnStatOp("RETURN",new IdExprNode("ID","var2"));
+        typeVisitor.getActiveStackScope().push(funTable);
+        assertThrows(TypeMismatchException.class,() -> typeVisitor.visit(wrongRtrn));
+
     }
 
     @Test
