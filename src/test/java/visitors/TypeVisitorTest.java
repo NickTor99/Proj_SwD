@@ -1,6 +1,5 @@
 package visitors;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import exceptions.TypeMismatchException;
 import exceptions.UndeclaredVariableException;
 import launcher.sym;
@@ -192,7 +191,6 @@ class TypeVisitorTest {
         typeVisitor.setHasReturn(false);
         statList.clear();
         typeVisitor.visit(new IsMainFunOp(false,voidFun));
-
     }
 
     @Test
