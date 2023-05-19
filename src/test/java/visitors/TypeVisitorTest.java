@@ -1,6 +1,8 @@
 package visitors;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import exceptions.TypeMismatchException;
+import exceptions.UndeclaredVariableException;
 import launcher.sym;
 import nodes.*;
 import org.junit.jupiter.api.AfterEach;
@@ -88,10 +90,14 @@ class TypeVisitorTest {
         IdExprNode id = new IdExprNode("ID","v1");
         typeVisitor.visit(id);
         assertEquals(sym.REAL,id.getType());
+
+        IdExprNode id2 = new IdExprNode("ID","nonesiste");
+        assertThrows(UndeclaredVariableException.class,() -> typeVisitor.visit(id2));
     }
 
     @Test
     void visitAssignOp() {
+        // assign with 1 expr
         ArrayList<IdInit> idList = new ArrayList<>();
         ArrayList<ExprNode> exprList = new ArrayList<>();
         idList.add(new IdInit(new IdExprNode("ID","v1"),null,null));
@@ -99,16 +105,30 @@ class TypeVisitorTest {
         exprList.add(new ConstExprNode("INTEGER_CONST","10"));
         AssignOp assign = new AssignOp("ASSIGN",idList,exprList);
         typeVisitor.visit(assign);
-
         assertEquals(sym.VOID,assign.getType());
+
+        // assign with #id = #expr
+        exprList.add(new ConstExprNode("REAL_CONST","6.66"));
+        AssignOp assign2 = new AssignOp("ASSIGN",idList,exprList);
+        typeVisitor.visit(assign2);
+        assertEquals(sym.VOID,assign2.getType());
+
+        // assign with #id != #expr
+        exprList.add(new ConstExprNode("REAL_CONST","9.99"));
+        AssignOp assign3 = new AssignOp("ASSIGN",idList,exprList);
+        assertThrows(Error.class,() -> typeVisitor.visit(assign3));
     }
 
     @Test
     void visitProgramOp() {
         ArrayList<AbstractSyntaxNode> emptyList = new ArrayList<>();
+        ArrayList<VarDeclOp> varList = new ArrayList<>();
+        ArrayList<IdInit> idList = new ArrayList<>();
+        idList.add(new IdInit(new IdExprNode("ID","var1"),null,null));
+        varList.add(new VarDeclOp("STRING",idList));
         ProgramOp programOp = new ProgramOp(
                 emptyList,
-                new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),new ArrayList<>(),"VOID",new BodyOp(new ArrayList<>(),null))),
+                new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),new ArrayList<>(),"VOID",new BodyOp(varList,null))),
                 emptyList
         );
         typeVisitor.visit(programOp);
