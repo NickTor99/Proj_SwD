@@ -344,6 +344,7 @@ public class TypeVisitor implements Visitor{
             throw new TypeMismatchException("Errore: la condizione dell'if deve essere un booleano");
         }
         activeStackScope.pop();
+        node.setType(sym.VOID);
     }
 
     void visitWhileOp(WhileOp node){
@@ -358,6 +359,7 @@ public class TypeVisitor implements Visitor{
             throw new TypeMismatchException("Errore: la condizione del while deve essere un booleano");
         }
         activeStackScope.pop();
+        node.setType(sym.VOID);
     }
 
     void visitForStatOp(ForStatOp node){
@@ -375,6 +377,7 @@ public class TypeVisitor implements Visitor{
             throw new TypeMismatchException("Errore: le costanti del ciclo for devono essere numeri interi");
         }
         activeStackScope.pop();
+        node.setType(sym.VOID);
     }
 
     void visitReadOp(ReadOp node){

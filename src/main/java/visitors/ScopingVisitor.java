@@ -182,7 +182,6 @@ public class ScopingVisitor implements Visitor{
             node.getElseBodyOp().accept(this);
             activeStackScope.pop();
         }
-        node.setType(sym.VOID);
     }
 
     void visitWhileOp(WhileOp node){
@@ -190,7 +189,6 @@ public class ScopingVisitor implements Visitor{
         activeStackScope.push(symbolTable);
         node.setSymbolTable(symbolTable);
         node.getBody().accept(this);
-        node.setType(sym.VOID);
         activeStackScope.pop();
     }
 
@@ -203,7 +201,6 @@ public class ScopingVisitor implements Visitor{
 
         node.setSymbolTable(symbolTable);
         node.getBody().accept(this);
-        node.setType(sym.VOID);
         activeStackScope.pop();
     }
 

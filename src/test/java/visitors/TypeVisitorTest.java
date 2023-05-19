@@ -243,21 +243,72 @@ class TypeVisitorTest {
 
     @Test
     void visitIfStatOp() {
+        ConstExprNode condition = new ConstExprNode("BOOL","true");
+        BodyOp body = new BodyOp(new ArrayList<>(),new ArrayList<>());
+        IfStatOp ifStat = new IfStatOp("IF",condition,body,body);
+        typeVisitor.visit(ifStat);
+        assertEquals(sym.VOID,ifStat.getType());
+
+        ConstExprNode wrongCondition = new ConstExprNode("STRING_CONST","true");
+        IfStatOp wrongIfStat = new IfStatOp("IF",wrongCondition,body,null);
+        assertThrows(TypeMismatchException.class,() -> typeVisitor.visit(wrongIfStat));
     }
 
     @Test
     void visitWhileOp() {
+        ConstExprNode condition = new ConstExprNode("BOOL","true");
+        BodyOp body = new BodyOp(new ArrayList<>(),new ArrayList<>());
+        WhileOp whileStat = new WhileOp("WHILE",condition,body);
+        typeVisitor.visit(whileStat);
+        assertEquals(sym.VOID,whileStat.getType());
+
+        ConstExprNode wrongCondition = new ConstExprNode("STRING_CONST","true");
+        WhileOp wrongWhileStat = new WhileOp("WHILE",wrongCondition,body);
+        assertThrows(TypeMismatchException.class,() -> typeVisitor.visit(wrongWhileStat));
     }
 
     @Test
     void visitForStatOp() {
+        SymbolTable forTable = new SymbolTable("FOR");
+        forTable.put("i",new SymbolRecord("i","var",sym.INTEGER));
+        IdExprNode index = new IdExprNode("ID","i");
+        ConstExprNode const1 = new ConstExprNode("INTEGER_CONST","0");
+        ConstExprNode const2 = new ConstExprNode("INTEGER_CONST","5");
+        BodyOp body = new BodyOp(new ArrayList<>(),new ArrayList<>());
+        ForStatOp forStat = new ForStatOp("FOR",index,const1,const2,body);
+        forStat.setSymbolTable(forTable);
+        typeVisitor.visit(forStat);
+        assertEquals(sym.VOID,forStat.getType());
+
+        ConstExprNode const3 = new ConstExprNode("STRING_CONST","0");
+        ConstExprNode const4 = new ConstExprNode("REAL_CONST","5");
+        ForStatOp wrongFor1 = new ForStatOp("FOR",index,const1,const4,body);
+        ForStatOp wrongFor2 = new ForStatOp("FOR",index,const3,const1,body);
+        ForStatOp wrongFor3 = new ForStatOp("FOR",index,const3,const4,body);
+        wrongFor1.setSymbolTable(forTable);
+        wrongFor2.setSymbolTable(forTable);
+        wrongFor3.setSymbolTable(forTable);
+        assertThrows(TypeMismatchException.class,() -> typeVisitor.visit(wrongFor1));
+        assertThrows(TypeMismatchException.class,() -> typeVisitor.visit(wrongFor2));
+        assertThrows(TypeMismatchException.class,() -> typeVisitor.visit(wrongFor3));
     }
 
     @Test
     void visitReadOp() {
+        ArrayList<IdInit> idList = new ArrayList<>();
+        idList.add(new IdInit(new IdExprNode("ID","v1"),null,null));
+        idList.add(new IdInit(new IdExprNode("ID","v2"),null,null));
+        ReadOp readOp = new ReadOp("READ",idList,new ConstExprNode("STRING_CONST","ciao"));
+        typeVisitor.visit(readOp);
+        assertEquals(sym.VOID,readOp.getType());
     }
 
     @Test
     void visitWriteOp() {
+        ArrayList<ExprNode> exprList = new ArrayList<>();
+        exprList.add(new IdExprNode("ID","v1"));
+        WriteOp writeOp = new WriteOp("WRITE","WRITELN",exprList);
+        typeVisitor.visit(writeOp);
+        assertEquals(sym.VOID,writeOp.getType());
     }
 }
