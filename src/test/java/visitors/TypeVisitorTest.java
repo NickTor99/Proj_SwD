@@ -258,7 +258,6 @@ class TypeVisitorTest {
         ReturnStatOp wrongRtrn = new ReturnStatOp("RETURN",new IdExprNode("ID","var2"));
         typeVisitor.getActiveStackScope().push(funTable);
         assertThrows(TypeMismatchException.class,() -> typeVisitor.visit(wrongRtrn));
-
     }
 
     @Test
