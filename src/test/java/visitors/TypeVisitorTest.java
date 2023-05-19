@@ -121,16 +121,20 @@ class TypeVisitorTest {
 
     @Test
     void visitProgramOp() {
+        SymbolTable table = new SymbolTable("test");
+        table.put("var1",new SymbolRecord("var1","var",sym.INTEGER));
         ArrayList<AbstractSyntaxNode> emptyList = new ArrayList<>();
         ArrayList<VarDeclOp> varList = new ArrayList<>();
         ArrayList<IdInit> idList = new ArrayList<>();
         idList.add(new IdInit(new IdExprNode("ID","var1"),null,null));
         varList.add(new VarDeclOp("STRING",idList));
+        FunOp fun = new FunOp(new IdExprNode("ID","test"),new ArrayList<>(),"VOID",new BodyOp(varList,null));
         ProgramOp programOp = new ProgramOp(
                 emptyList,
-                new IsMainFunOp(true,new FunOp(new IdExprNode("ID","test"),new ArrayList<>(),"VOID",new BodyOp(varList,null))),
+                new IsMainFunOp(true,fun),
                 emptyList
         );
+        fun.setSymbolTable(table);
         typeVisitor.visit(programOp);
 
         assertEquals(sym.VOID,programOp.getType());
