@@ -13,6 +13,11 @@ import nodes.*;
 public class CVisitor implements Visitor{
 
     private boolean globalVarDecl = true;
+
+    public void setGlobalVarDecl(boolean globalVarDecl) {
+        this.globalVarDecl = globalVarDecl;
+    }
+
     private Stack<SymbolTable> activeStackScope = new Stack<>();
 
     @Override
@@ -134,7 +139,6 @@ public class CVisitor implements Visitor{
                 }
             }
             else{
-
                 if (varType.equals("VAR")) {
                     for (IdInit idInit : idInitList) {
                         String cType = typeConverter(XMLVisitor.numericToStringType(idInit.getId().getType()));
@@ -478,11 +482,10 @@ public class CVisitor implements Visitor{
     private String getFormato(int type){
         switch (type) {
             case sym.INTEGER:
+            case sym.BOOL:
                 return "\"%d\"";
             case sym.REAL:
                 return "\"%f\"";
-            case sym.BOOL:
-                return "\"%s\"";
             case sym.CHAR:
                 return "\"%c\"";
             case sym.STRING:

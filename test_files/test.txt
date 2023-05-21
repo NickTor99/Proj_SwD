@@ -8,7 +8,9 @@ start: def inizio(integer boh | out string ciao): void{
     var ans << "si";
     integer op;
     var num1 << 0.0, num2 << 0.0, num << 0;
-    (setSize) -->!;
+    boolean pdio << true;
+
+    (setSize,pdio) -->!;
     while ans = "si" loop{
         ("Scegli che operazione fare inserendo il numero corrispondente:\n", menu) -->!;
         op <--;
@@ -77,5 +79,4 @@ def divIntera(float a | float b | out string size): integer{
 
 integer setSize << 995 + add;
 var add << 5;
-string hello << "Hello" & " World!";
 

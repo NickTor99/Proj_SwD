@@ -47,8 +47,10 @@ float num2 = 0.0;
 int num = 0;
 int op;
 char *ans = "si";
+int pdio = true;
 char *size = "piccolo";
 printf("%d",setSize);
+printf("%d",pdio);
 printf("\n");
 while(!strcmp(ans,"si")){
 printf("%s","Scegli che operazione fare inserendo il numero corrispondente:\n");
