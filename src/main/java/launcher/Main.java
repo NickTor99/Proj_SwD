@@ -37,7 +37,7 @@ public class Main {
 
         Runtime rt = Runtime.getRuntime();
         String cCompilerCmd = "gcc "+cGenerated;
-        rt.exec(cCompilerCmd);
+        System.out.println(rt.exec(cCompilerCmd));
     }
 
     private static void fileGenerator(String txt,String filePath){

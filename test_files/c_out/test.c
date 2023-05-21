@@ -5,7 +5,7 @@
 #include <malloc.h>
 #define true 1
 #define false 0
-void inizio();
+void inizio(int,char **);
 int divIntera(float,float,char **);
 int fibonacci(int);
 float operazione(int,float,float);
@@ -33,20 +33,23 @@ char* s = malloc(256);
 sprintf(s, "%s%s", s1, i);
 return s;
 }
-#define setSize (int) 100
+#define setSize (int) (995 + add)
+int add = 5;
+char *menu = "(1) somma di due numeri\n(2) moltiplicazione di due numeri\n(3) divisione intera tra due numeri\n(4) elevamento a potenza\n(5) succesione di fibonacci\n";
 // MAIN FUNCTION
 int main(int argc, char** argv){
-inizio();
+inizio(0,"");
 return (EXIT_SUCCESS);
 }
-void inizio(){
-char *ans = "si";
-int op;
+void inizio(int boh,char **ciao){
 float num1 = 0.0;
 float num2 = 0.0;
 int num = 0;
-char *menu = concat(concat(concat(concat("(1) somma di due numeri\n","(2) moltiplicazione di due numeri\n"),"(3) divisione intera tra due numeri\n"),"(4) elevamento a potenza\n"),"(5) succesione di fibonacci\n");
+int op;
+char *ans = "si";
 char *size = "piccolo";
+printf("%d",setSize);
+printf("\n");
 while(!strcmp(ans,"si")){
 printf("%s","Scegli che operazione fare inserendo il numero corrispondente:\n");
 printf("%s",menu);

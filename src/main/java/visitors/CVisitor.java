@@ -110,8 +110,16 @@ public class CVisitor implements Visitor{
                     }
                     else{
                         if(idInit.getExprNode() != null) {
-                            codiceC +=  "#define " + idInit.getId().getNameId() + " ("+cType+") ";
-                            codiceC += idInit.getExprNode().accept(this);
+                            if(typeConverter(varType).equals("STRING")){
+                                if(idInit.getExprNode() instanceof BiExprNode){
+                                    throw new Error("Errore nella dichiarazione della variabile globale "+ idInit.getId().getNameId() +". Per dichiarare una concatenazioni di stringhe costanti utilizza il tipo var al posto di string");
+                                }
+                                codiceC += "char *" + idInit.getId().getNameId() + " = " + idInit.getExprNode().accept(this)+";";
+                            }
+                            else{
+                                codiceC +=  "#define " + idInit.getId().getNameId() + " ("+cType+") ";
+                                codiceC += idInit.getExprNode().accept(this);
+                            }
                         }
                         else{
                             if(typeConverter(varType).equals("STRING")){

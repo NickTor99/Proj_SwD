@@ -1,13 +1,14 @@
-start: def inizio(): void{
-    string menu <<  "(1) somma di due numeri\n" &
-                    "(2) moltiplicazione di due numeri\n" &
-                    "(3) divisione intera tra due numeri\n" &
-                    "(4) elevamento a potenza\n" &
-                    "(5) succesione di fibonacci\n";
+var menu <<  "(1) somma di due numeri\n" &
+                        "(2) moltiplicazione di due numeri\n" &
+                        "(3) divisione intera tra due numeri\n" &
+                        "(4) elevamento a potenza\n" &
+                        "(5) succesione di fibonacci\n";
+start: def inizio(integer boh | out string ciao): void{
     string size << "piccolo";
     var ans << "si";
     integer op;
     var num1 << 0.0, num2 << 0.0, num << 0;
+    (setSize) -->!;
     while ans = "si" loop{
         ("Scegli che operazione fare inserendo il numero corrispondente:\n", menu) -->!;
         op <--;
@@ -74,4 +75,7 @@ def divIntera(float a | float b | out string size): integer{
     return result;
 }
 
-integer setSize << 100;
+integer setSize << 995 + add;
+var add << 5;
+string hello << "Hello" & " World!";
+
