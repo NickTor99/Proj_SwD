@@ -20,6 +20,10 @@ public class CVisitor implements Visitor{
 
     private Stack<SymbolTable> activeStackScope = new Stack<>();
 
+    public void setActiveStackScope(Stack<SymbolTable> activeStackScope) {
+        this.activeStackScope = activeStackScope;
+    }
+
     @Override
     public String visit(AbstractSyntaxNode node) {
         String codiceC = "";
