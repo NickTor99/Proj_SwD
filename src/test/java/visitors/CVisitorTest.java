@@ -1,5 +1,6 @@
 package visitors;
 
+import exceptions.UndeclaredVariableException;
 import launcher.sym;
 import nodes.*;
 import org.junit.jupiter.api.AfterEach;
@@ -9,6 +10,7 @@ import table.SymbolRecord;
 import table.SymbolTable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +29,10 @@ class CVisitorTest {
         symbolTable = new SymbolTable("testScope");
         symbolTable.put("id1",new SymbolRecord("id1","var",sym.CHAR));
         symbolTable.put("id2",new SymbolRecord("id2","var",sym.CHAR));
+        symbolTable.put("idStr",new SymbolRecord("idStr","var",sym.STRING));
+        symbolTable.put("idInt",new SymbolRecord("idInt","var",sym.INTEGER));
+        symbolTable.put("idBool",new SymbolRecord("idBool","var",sym.BOOL));
+        symbolTable.put("idReal",new SymbolRecord("idReal","var",sym.REAL));
         Stack<SymbolTable> activeStackScope = new Stack<>();
         activeStackScope.push(symbolTable);
         cVisitor.setActiveStackScope(activeStackScope);
@@ -232,6 +238,16 @@ class CVisitorTest {
         // assign with more than 1 expr
         exprList.add(new ConstExprNode("CHAR_CONST","b"));
         assertEquals("id1 = \"a\";\nid2 = \"b\";\n",cVisitor.visit(assign));
+
+        symbolTable.put("pointer",new SymbolRecord("pointer","var",sym.STRING,true));
+        IdExprNode pointer = new IdExprNode("ID","pointer");
+        pointer.setType(sym.STRING);
+        idList.clear();
+        idList.add(new IdInit(pointer,null,null));
+        exprList.clear();
+        exprList.add(new ConstExprNode("STRING_CONST","Hello World"));
+        assign = new AssignOp("ASSIGN",idList,exprList);
+        assertEquals("*pointer = \"Hello World\";\n",cVisitor.visit(assign));
     }
 
     @Test
@@ -251,6 +267,34 @@ class CVisitorTest {
         assertEquals("printf(\"%c\",id1);\n" +
                 "printf(\"%c\",id2);\n" +
                 "printf(\"\\n\");\n",cVisitor.visit(writeln));
+
+        // testing the athers scanf formats
+        IdExprNode idStr = new IdExprNode("ID","idStr");
+        IdExprNode idInt = new IdExprNode("ID","idInt");
+        IdExprNode idBool = new IdExprNode("ID","idBool");
+        IdExprNode idReal = new IdExprNode("ID","idReal");
+        idStr.setType(sym.STRING);
+        idInt.setType(sym.INTEGER);
+        idBool.setType(sym.BOOL);
+        idReal.setType(sym.REAL);
+        exprList.clear();
+        exprList.add(idStr);
+        exprList.add(idInt);
+        exprList.add(idBool);
+        exprList.add(idReal);
+        write = new WriteOp("WRITE","WRITE",exprList);
+        assertEquals("printf(\"%f\",idReal);\n" +
+                "printf(\"%d\",idBool);\n" +
+                "printf(\"%d\",idInt);\n" +
+                "printf(\"%s\",idStr);\n",cVisitor.visit(write));
+
+        // testing undeclared variable
+        IdExprNode idNotDecl = new IdExprNode("ID","idNotDecl");
+        idNotDecl.setType(sym.STRING);
+        exprList.clear();
+        exprList.add(idNotDecl);
+        WriteOp write2 = new WriteOp("WRITE","WRITE",exprList);
+        assertThrows(UndeclaredVariableException.class,() -> cVisitor.visit(write2));
     }
 
     @Test
@@ -341,9 +385,28 @@ class CVisitorTest {
         assertEquals("10 * (-1)",cVisitor.visit(unExpr));
         unExpr = new UnExprNode("NOT",boolConst);
         assertEquals("!(true)",cVisitor.visit(unExpr));
+    }
+
+    @Test
+    void visitCallFunOp(){
+        // testing function call with parameters
+        CallParamOp callPar1 = new CallParamOp(new ConstExprNode("INTEGER_CONST","32"),false);
+        CallParamOp callPar2 = new CallParamOp(new IdExprNode("ID","id1"),true);
+        ArrayList<CallParamOp> parList = new ArrayList<>();
+        parList.add(callPar1);
+        parList.add(callPar2);
+        CallFunOp callFun = new CallFunOp("CALLFUN",new IdExprNode("ID","callTest"),parList);
+        assertEquals("callTest(&id1,32);\n",cVisitor.visit(callFun));
+
+        // testing function call as an expression
+        Collections.reverse(parList);
+        callFun.setExpr(true);
+        assertEquals("callTest(&id1,32)",cVisitor.visit(callFun));
+
+        // testing function call without parameters
+        CallFunOp callFunNoPar = new CallFunOp("CALLFUN",new IdExprNode("ID","callTestNoPar"),null);
+        assertEquals("callTestNoPar();\n",cVisitor.visit(callFunNoPar));
 
     }
-    @Test
-    void typeConverter() {
-    }
+
 }
