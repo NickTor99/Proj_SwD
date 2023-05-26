@@ -495,11 +495,11 @@ public class CVisitor implements Visitor{
             case sym.STRING:
                 return "\"%s\"";
             default:
-                return "ERROR";
+                throw new Error("Wrong variable type");
         }
     }
 
-    private String exprStringConverter(ExprNode expr){
+    public String exprStringConverter(ExprNode expr){
         String str = "";
         if(expr instanceof BiExprNode){
             str = (String) expr.accept(this);

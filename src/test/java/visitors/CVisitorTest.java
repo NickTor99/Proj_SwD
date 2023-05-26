@@ -82,8 +82,8 @@ class CVisitorTest {
                 "}\n" +
                 "int v3;\n" +
                 "char v2;\n" +
-                "char *string2 = \"Hello \";\n" +
-                "char *string = \"Hello World\";\n" +
+                "char *string2 = \"Hello World\";\n" +
+                "char *string;\n" +
                 "#define v1 (float) 5.3\n" +
                 "int v0 = 100;\n" +
                 "// MAIN FUNCTION\n" +
@@ -105,9 +105,9 @@ class CVisitorTest {
         varDeclList2.add(var3);
         VarDeclOp var4 = new VarDeclOp("BOOL",new IdInit(new IdExprNode("ID","v3"),null,null));
         varDeclList2.add(var4);
-        VarDeclOp var5 = new VarDeclOp("STRING",new IdInit(new IdExprNode("ID","string"),new ConstExprNode("STRING_CONST","Hello World"),null));
+        VarDeclOp var5 = new VarDeclOp("STRING",new IdInit(new IdExprNode("ID","string"),null,null));
         varDeclList1.add(var5);
-        VarDeclOp var6 = new VarDeclOp("VAR",new IdInit(new IdExprNode("ID","string2"),null,new ConstExprNode("STRING_CONST","Hello ")));
+        VarDeclOp var6 = new VarDeclOp("VAR",new IdInit(new IdExprNode("ID","string2"),null,new ConstExprNode("STRING_CONST","Hello World")));
         varDeclList1.add(var6);
         // checking the correct generation of the function
         ArrayList<ParDeclOp> parDeclList = new ArrayList<>();
@@ -143,9 +143,9 @@ class CVisitorTest {
         id1.setType(sym.STRING);
         id2.setType(sym.STRING);
         idList.add(new IdInit(id1,null,new ConstExprNode("STRING_CONST","Hello")));
-        idList.add(new IdInit(id2,null,new ConstExprNode("STRING_CONST","World")));
+        idList.add(new IdInit(id2,null,new ConstExprNode("STRING_CONST"," World")));
         VarDeclOp varDecl1 = new VarDeclOp("VAR",idList);
-        assertEquals("char *var1 = \"Hello\";\nchar *var2 = \"World\";\n",cVisitor.visit(varDecl1));
+        assertEquals("char *var1 = \"Hello\";\nchar *var2 = \" World\";\n",cVisitor.visit(varDecl1));
 
         IdExprNode id3 = new IdExprNode("ID","var3");
         id3.setType(sym.STRING);
@@ -288,6 +288,10 @@ class CVisitorTest {
                 "printf(\"%d\",idInt);\n" +
                 "printf(\"%s\",idStr);\n",cVisitor.visit(write));
 
+        idReal.setType(sym.VOID);
+        WriteOp finalWrite = new WriteOp("WRITE","WRITE",exprList);
+        assertThrows(Error.class,() -> cVisitor.visit(finalWrite));
+
         // testing undeclared variable
         IdExprNode idNotDecl = new IdExprNode("ID","idNotDecl");
         idNotDecl.setType(sym.STRING);
@@ -302,18 +306,24 @@ class CVisitorTest {
         ArrayList<IdInit> idList = new ArrayList<>();
         IdExprNode id1 = new IdExprNode("ID","id1");
         IdExprNode id2 = new IdExprNode("ID","id2");
+        IdExprNode id3 = new IdExprNode("ID","idStr");
         id1.setType(sym.CHAR);
         id2.setType(sym.CHAR);
+        id3.setType(sym.STRING);
         IdInit idInit1 = new IdInit(id1,null,null);
         IdInit idInit2 = new IdInit(id2,null,null);
+        IdInit idInit3 = new IdInit(id3,null,null);
         idList.add(idInit1);
         idList.add(idInit2);
+        idList.add(idInit3);
         ConstExprNode str = new ConstExprNode("STRING_CONST","inserisci 2 caratteri");
         str.setType(sym.STRING);
         ReadOp read = new ReadOp("READ",idList,str);
         assertEquals("printf(\"inserisci 2 caratteri\");\n" +
                 "scanf(\"%c\",&id1);\n" +
-                "scanf(\"%c\",&id2);\n",cVisitor.visit(read));
+                "scanf(\"%c\",&id2);\n" +
+                "idStr = malloc(256);\n" +
+                "scanf(\"%s\",idStr);\n",cVisitor.visit(read));
     }
 
     @Test
@@ -407,6 +417,48 @@ class CVisitorTest {
         CallFunOp callFunNoPar = new CallFunOp("CALLFUN",new IdExprNode("ID","callTestNoPar"),null);
         assertEquals("callTestNoPar();\n",cVisitor.visit(callFunNoPar));
 
+    }
+
+    @Test
+    void testExprStringConverter(){
+        ConstExprNode strConst1 = new ConstExprNode("STRING_CONST","Hello ");
+        ConstExprNode strConst2 =new ConstExprNode("STRING_CONST","World");
+        strConst1.setType(sym.STRING);
+        strConst2.setType(sym.STRING);
+        ConstExprNode intConst1 = new ConstExprNode("INTEGER_CONST","10");
+        ConstExprNode intConst2 =new ConstExprNode("REAL_CONST","20.5");
+        intConst1.setType(sym.INTEGER);
+        intConst2.setType(sym.INTEGER);
+        ConstExprNode charConst =new ConstExprNode("CHAR_CONST","c");
+        charConst.setType(sym.CHAR);
+
+        BiExprNode biExpr = new BiExprNode("STR_CONCAT",strConst1,strConst2);
+        assertEquals("concat(\"Hello \",\"World\")",cVisitor.exprStringConverter(biExpr));
+
+        biExpr = new BiExprNode("POW",intConst1,intConst2);
+        assertEquals("pow((float)(10), (float)(20.5))",cVisitor.exprStringConverter(biExpr));
+
+        biExpr = new BiExprNode("PLUS",intConst1,intConst2);
+        assertEquals("\"(10 + 20.5)\"",cVisitor.exprStringConverter(biExpr));
+
+        assertEquals("\"Hello \"",cVisitor.exprStringConverter(strConst1));
+        assertEquals("\"c\"",cVisitor.exprStringConverter(charConst));
+
+        UnExprNode unExpr = new UnExprNode("MINUS",intConst1);
+        assertEquals("\"10 * (-1)\"",cVisitor.exprStringConverter(unExpr));
+
+        IdExprNode idStr = new IdExprNode("ID","idStr");
+        IdExprNode idInt = new IdExprNode("ID","idInt");
+        IdExprNode idBool = new IdExprNode("ID","idBool");
+        IdExprNode idReal = new IdExprNode("ID","idReal");
+        idStr.setType(sym.STRING);
+        idInt.setType(sym.INTEGER);
+        idBool.setType(sym.BOOL);
+        idReal.setType(sym.REAL);
+        assertEquals("idStr",cVisitor.exprStringConverter(idStr));
+        assertEquals("intToString(idInt)",cVisitor.exprStringConverter(idInt));
+        assertEquals("boolToString(idBool)",cVisitor.exprStringConverter(idBool));
+        assertEquals("doubleToString(idReal)",cVisitor.exprStringConverter(idReal));
     }
 
 }
