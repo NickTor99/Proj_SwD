@@ -25,11 +25,9 @@ public class Main {
         scopeVisitor.visit(programOp);
         //printScopes(programOp); // stampo le symbol table di ogni scope per testare il corretto funzionamento della visita
         TypeVisitor typeCheckerVisitor = new TypeVisitor();
-        System.out.println(programOp.getSymbolTable());
         System.out.println("Semantic analysis done!");
         typeCheckerVisitor.visit(programOp);
-        XMLVisitor xmlVisitor = new XMLVisitor();
-        fileGenerator(xmlVisitor.visit(programOp),"ast.xml"); // genero il file ast.xml per visualizzare l'albero sintattico
+
         CVisitor cGenerator = new CVisitor();
         String cCode = cGenerator.visit(programOp);
         System.out.println("C code generation done!");
@@ -37,7 +35,6 @@ public class Main {
 
         Runtime rt = Runtime.getRuntime();
         String cCompilerCmd = "gcc "+cGenerated;
-        System.out.println(rt.exec(cCompilerCmd));
     }
 
     private static void fileGenerator(String txt,String filePath){

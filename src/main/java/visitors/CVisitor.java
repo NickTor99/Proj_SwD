@@ -38,7 +38,7 @@ public class CVisitor implements Visitor{
             for(IsMainFunOp funOp : funList){ // generazione dei prototipi
                 FunOp fun = funOp.getFunOp();
                 if(funOp != null){
-                    codiceC += typeConverter(XMLVisitor.numericToStringType(fun.getType())) + " " + fun.getId().getNameId()+"(";
+                    codiceC += typeConverter(numericToStringType(fun.getType())) + " " + fun.getId().getNameId()+"(";
                     if(fun.getParDeclList() != null){
                         for (ParDeclOp param : fun.getParDeclList()) {
                             for (IdInit idInit : param.getIdList()) {
@@ -100,7 +100,7 @@ public class CVisitor implements Visitor{
             ArrayList<IdInit> idInitList = ((VarDeclOp) node).getIdInitList();
             if(globalVarDecl){
                 for (IdInit idInit : idInitList) {
-                    String cType = typeConverter(XMLVisitor.numericToStringType(idInit.getId().getType()));
+                    String cType = typeConverter(numericToStringType(idInit.getId().getType()));
                     if(varType.equals("VAR")) {
                         if(idInit.getCostante() != null && !cType.equals("STRING")) {
                             codiceC += cType + " " +idInit.getId().getNameId() + " = ";
@@ -145,7 +145,7 @@ public class CVisitor implements Visitor{
             else{
                 if (varType.equals("VAR")) {
                     for (IdInit idInit : idInitList) {
-                        String cType = typeConverter(XMLVisitor.numericToStringType(idInit.getId().getType()));
+                        String cType = typeConverter(numericToStringType(idInit.getId().getType()));
                         if (cType.equals("STRING")) {
                             codiceC += "char *" + idInit.getId().getNameId() + " = " + idInit.getCostante().accept(this) + ";\n";
                         } else {
@@ -540,6 +540,25 @@ public class CVisitor implements Visitor{
             }
         }
         throw new UndeclaredVariableException(id);
+    }
+
+    private String numericToStringType(int numericType){
+        switch (numericType) {
+            case sym.INTEGER:
+                return "INTEGER";
+            case sym.REAL:
+                return "REAL";
+            case sym.BOOL:
+                return "BOOL";
+            case sym.STRING:
+                return "STRING";
+            case sym.CHAR:
+                return "CHAR";
+            case sym.VOID:
+                return "VOID";
+            default:
+                return "ERROR";
+        }
     }
 }
 
