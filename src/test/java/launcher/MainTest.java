@@ -203,7 +203,7 @@ class MainTest {
 
         assertEquals(cOut,code);
 
-        /*int exitCode = 1;
+        int exitCode = 1;
         // compiling the .c file into an executable
         Runtime rt = Runtime.getRuntime();
         String cCompilerCmd = "gcc "+cFile;
@@ -217,7 +217,7 @@ class MainTest {
             System.out.println("Interrupted durante l'attesa del completamento della compilazione.");
             e.printStackTrace();
         }
-        assertEquals(0,exitCode);*/
+        assertEquals(0,exitCode);
 
     }
 
