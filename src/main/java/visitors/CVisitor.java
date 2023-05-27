@@ -189,7 +189,12 @@ public class CVisitor implements Visitor{
                                 codiceC += "0.0";
                             }
                             if (param.getType() == sym.STRING) {
-                                codiceC += "\"\"";
+                                if(param.getMode().equals("OUT")){
+                                    codiceC += "argv";
+                                }
+                                else{
+                                    codiceC += "\"\"";
+                                }
                             }
                             if (param.getType() == sym.CHAR) {
                                 codiceC += "\'\'";

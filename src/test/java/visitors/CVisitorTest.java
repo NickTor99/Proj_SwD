@@ -88,7 +88,7 @@ class CVisitorTest {
                 "int v0 = 100;\n" +
                 "// MAIN FUNCTION\n" +
                 "int main(int argc, char** argv){\n" +
-                "test(0,\"\",0.0,false,'');\n" +
+                "test(0,argv,0.0,false,'');\n" +
                 "return (EXIT_SUCCESS);\n" +
                 "}\n" +
                 "void test(int par1,char **outPar,float par2,int par3,char par4){\n" +

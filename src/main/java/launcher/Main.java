@@ -35,6 +35,24 @@ public class Main {
 
         Runtime rt = Runtime.getRuntime();
         String cCompilerCmd = "gcc "+cGenerated;
+        try {
+            Process compileProcess = rt.exec(cCompilerCmd);
+            int exitCode = compileProcess.waitFor();
+
+            if (exitCode == 0) {
+                System.out.println("La compilazione è stata completata con successo.");
+                // Altre azioni da eseguire se la compilazione è andata a buon fine
+            } else {
+                System.out.println("La compilazione ha generato degli errori.");
+                // Altre azioni da eseguire se la compilazione ha prodotto errori
+            }
+        } catch (IOException e) {
+            System.out.println("Errore durante l'esecuzione del comando di compilazione.");
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted durante l'attesa del completamento della compilazione.");
+            e.printStackTrace();
+        }
     }
 
     private static void fileGenerator(String txt,String filePath){

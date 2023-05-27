@@ -96,7 +96,7 @@ public class TypeChecker{
                     return sym.BOOL;
                 }
             }
-            throw new TypeMismatchException("Il tipo" + type1 + " e il tipo " + type2 + " sono incompatibili");
+            throw new TypeMismatchException("Il tipo " + type1 + " e il tipo " + type2 + " sono incompatibili");
         }
         else if(op.equals(BOOLEANOP)){
             if(type1 == sym.BOOL && type2 == sym.BOOL){

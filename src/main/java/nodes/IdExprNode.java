@@ -7,6 +7,9 @@ public class IdExprNode extends ExprNode{
     public IdExprNode(String nome, String nameId) {
         super(nome);
         this.nameId = nameId;
+        if(nameId.equals("main") || nameId.equals("const") || nameId.equals("int")){
+            throw new Error("Il nome della variabile o funzione " + nameId + " non può essere utilizzato, in quanto è una parola chiave in C");
+        }
     }
 
     public String getNameId() {

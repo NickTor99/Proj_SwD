@@ -61,13 +61,11 @@ public class ScopingVisitor implements Visitor{
     void visitVarDeclOp(VarDeclOp node){
         ArrayList<IdInit> idInitList = node.getIdInitList();
         if(node.getVarType() == "VAR"){
-            node.setType(sym.error);
             for(IdInit idInit : idInitList){
                 String nomeId = idInit.getId().getNameId();
                 if(!activeStackScope.peek().containsKey(nomeId)){
                     int type = TypeChecker.getInferenceType(idInit.getCostante().getNome());
                     activeStackScope.peek().put(nomeId,new SymbolRecord(nomeId,"var",type));
-                    node.setType(type);
                 }
                 else{
                     throw new Error("Identificatore: "+ nomeId +" è già dichiarato all'interno dello scope");
@@ -85,7 +83,6 @@ public class ScopingVisitor implements Visitor{
                     throw new Error("Identificatore: "+ nomeId +" è già dichiarato all'interno dello scope");
                 }
             }
-            node.setType(type);
         }
     }
 
@@ -123,7 +120,6 @@ public class ScopingVisitor implements Visitor{
             throw new Error("Identificatore della funzione: "+ nomeId +" è già dichiarato all'interno dello scope");
         }
         funOp.setType(returnType);
-        node.setType(returnType);
         funOp.setSymbolTable(activeStackScope.peek());
         activeStackScope.pop();
     }
@@ -144,7 +140,6 @@ public class ScopingVisitor implements Visitor{
             else{
                 throw new Error("Identificatore: "+ nomeId +" è già dichiarato all'interno dello scope");
             }
-            idInit.setType(sym.VOID);
         }
         node.setType(type);
     }
@@ -165,7 +160,6 @@ public class ScopingVisitor implements Visitor{
                 }
             }
         }
-        node.setType(sym.VOID);
     }
 
     void visitIfStatOp(IfStatOp node){
