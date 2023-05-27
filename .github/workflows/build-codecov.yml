@@ -17,6 +17,9 @@ jobs:
         with:
           java-version: 17
 
+      - name: Install GCC
+        run: sudo apt-get install gcc
+
       - name: Build with Maven
         run: mvn clean package
 
