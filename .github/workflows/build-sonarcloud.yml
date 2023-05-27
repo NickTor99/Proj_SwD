@@ -19,7 +19,7 @@ jobs:
           java-version: 17
           distribution: 'zulu' # Alternative distribution options are available.
       - name: Install GCC
-        run: apt-get install -y gcc
+        run: sudo apt-get install gcc
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
