@@ -22,6 +22,10 @@ jobs:
 
       - name: Verify GCC installation
         run: gcc --version
+        
+      - name: List files
+        run: ls -la
+
 
       - name: Build with Maven
         run: mvn clean package
