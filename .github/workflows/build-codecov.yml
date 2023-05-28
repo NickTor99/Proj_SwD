@@ -20,8 +20,11 @@ jobs:
       - name: Set project directory permissions
         run: chmod -R +xw .
 
-      - name: Install GCC
-        run: sudo apt-get install gcc
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
 
       - name: Verify GCC installation
         run: gcc --version
