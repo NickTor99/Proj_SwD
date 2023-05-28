@@ -18,7 +18,7 @@ class MainTest {
     ScopingVisitor scopingVisitor;
     TypeVisitor typeVisitor;
     CVisitor cVisitor;
-    String cFile = "src/test/java/cFileTest.c";
+    String cFile;
     String cOut;
 
     MainTest() throws FileNotFoundException {
@@ -173,6 +173,7 @@ class MainTest {
                 "return pow((float)(a), (float)(b));\n" +
                 "}\n" +
                 "}\n";
+        cFile = "src/test/java/cFileTest.c";
     }
 
     // integration test, testing every component in cascade
@@ -206,7 +207,7 @@ class MainTest {
         int exitCode = 99;
         // compiling the .c file into an executable
         Runtime rt = Runtime.getRuntime();
-        String cCompilerCmd = "gcc "+cFile;
+        String cCompilerCmd = "gcc test_files/c_out/prova.c";
         try {
             Process compileProcess = rt.exec(cCompilerCmd);
             exitCode = compileProcess.waitFor();
