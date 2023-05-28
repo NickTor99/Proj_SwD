@@ -99,7 +99,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>main/java/nodes/*</exclude>
+                        <exclude>nodes</exclude>
                     </excludes>
                 </configuration>
                 <version>0.8.10</version>
