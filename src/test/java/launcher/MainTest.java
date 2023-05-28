@@ -201,7 +201,7 @@ class MainTest {
         String code = cVisitor.visit(programOp);
         fileGenerator(code,cFile);
 
-        assertEquals("",code);
+        assertEquals(cOut,code);
 
         int exitCode = 1;
         // compiling the .c file into an executable
