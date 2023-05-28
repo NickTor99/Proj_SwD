@@ -205,11 +205,9 @@ class MainTest {
         assertEquals(cOut,code);
 
         int exitCode = 99;
-        // compiling the .c file into an executable
-        Runtime rt = Runtime.getRuntime();
-        String cCompilerCmd = "gcc test_files/c_out/prova.c";
+        String cCompilerCmd = "gcc "+cFile;
         try {
-            Process compileProcess = rt.exec(cCompilerCmd);
+            Process compileProcess = Runtime.getRuntime().exec(cCompilerCmd);
             exitCode = compileProcess.waitFor();
         } catch (IOException e) {
             System.out.println("Errore durante l'esecuzione del comando di compilazione.");
@@ -218,7 +216,7 @@ class MainTest {
             System.out.println("Interrupted durante l'attesa del completamento della compilazione.");
             e.printStackTrace();
         }
-        assertEquals(0,exitCode);
+        assertEquals(0, exitCode);
 
     }
 
