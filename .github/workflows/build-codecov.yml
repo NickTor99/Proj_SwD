@@ -29,7 +29,7 @@ jobs:
       - name: Install additional libraries
         run: |
           sudo apt-get update
-          sudo apt-get install -y <stdlib.h> <string.h> <math.h> <malloc.h>
+          sudo apt-get install -y stdlib.h string.h math.h malloc.h
 
       - name: Verify GCC installation
         run: gcc --version
