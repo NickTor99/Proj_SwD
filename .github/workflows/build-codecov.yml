@@ -26,15 +26,6 @@ jobs:
           version: latest
           platform: x64
 
-      - name: Verify GCC installation
-        run: gcc --version
-
-      - name: Compile C program
-        run: gcc -o my_program test_files/c_out/cFileTest.c -lm
-
-      - name: List files
-        run: ls -la
-
       - name: Build with Maven
         run: mvn clean package
 
