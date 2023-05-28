@@ -17,6 +17,9 @@ jobs:
         with:
           java-version: 17
 
+      - name: Set project directory permissions
+        run: chmod -R +xw .
+
       - name: Install GCC
         run: sudo apt-get install gcc
 

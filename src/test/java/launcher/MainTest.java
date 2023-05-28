@@ -209,6 +209,11 @@ class MainTest {
         String cCompilerCmd = "gcc "+cFile;
         try {
             Process compileProcess = rt.exec(cCompilerCmd);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(compileProcess.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
             exitCode = compileProcess.waitFor();
         } catch (IOException e) {
             System.out.println("Errore durante l'esecuzione del comando di compilazione.");
