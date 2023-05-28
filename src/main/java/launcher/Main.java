@@ -7,23 +7,26 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Main {
+    public static final String GREEN = "\u001B[32m";
+    public static final String RESET = "\u001B[0m";
     public static void main(String[] args) throws Exception {
-        File initialFile = new File("test_files/test.txt");
+        String filePath = args[0];
+        File initialFile = new File(filePath);
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
-            throw new Error("FILE NON TROVATO!");
+            throw new Error("FILE NOT FOUND!");
         }
         BufferedReader input = new BufferedReader(new InputStreamReader(in));
-        String nomeFile = "test.txt";
-        String cGenerated = "test_files/c_out/"+nomeFile.substring(0,nomeFile.length()-4)+".c";
+        String fileName = args[1].substring(0,args[1].length()-4);
+        String cOutPath = "C_out/"+ fileName +".c";
 
+        System.out.println(GREEN+"Starting compiling "+fileName+"..."+GREEN+RESET);
         parser p = new parser(new Lexer(input));
         System.out.println("Parsing process done!");
         ProgramOp programOp = (ProgramOp) p.parse().value;
 
         ScopingVisitor scopeVisitor = new ScopingVisitor();
         scopeVisitor.visit(programOp);
-        //printScopes(programOp); // stampo le symbol table di ogni scope per testare il corretto funzionamento della visita
         TypeVisitor typeCheckerVisitor = new TypeVisitor();
         System.out.println("Semantic analysis done!");
         typeCheckerVisitor.visit(programOp);
@@ -31,26 +34,25 @@ public class Main {
         CVisitor cGenerator = new CVisitor();
         String cCode = cGenerator.visit(programOp);
         System.out.println("C code generation done!");
-        fileGenerator(cCode,cGenerated);
+        fileGenerator(cCode,cOutPath);
 
+        System.out.println("Starting C compiler...");
         Runtime rt = Runtime.getRuntime();
-        String cCompilerCmd = "gcc "+cGenerated;
+        String cCompilerCmd = "gcc -o " + "executables/" + fileName + " " + cOutPath + " -lm";
         try {
             Process compileProcess = rt.exec(cCompilerCmd);
             int exitCode = compileProcess.waitFor();
-
             if (exitCode == 0) {
-                System.out.println("La compilazione è stata completata con successo.");
-                // Altre azioni da eseguire se la compilazione è andata a buon fine
+                System.out.println("GCC compilation completed successfully");
+                System.out.println(fileName+".exe successfully created" );
             } else {
-                System.out.println("La compilazione ha generato degli errori.");
-                // Altre azioni da eseguire se la compilazione ha prodotto errori
+                System.err.println("Something went wrong while compiling with GCC");
             }
         } catch (IOException e) {
-            System.out.println("Errore durante l'esecuzione del comando di compilazione.");
+            System.err.println("Error executing GCC build command");
             e.printStackTrace();
         } catch (InterruptedException e) {
-            System.out.println("Interrupted durante l'attesa del completamento della compilazione.");
+            System.out.println("Interrupted while waiting for the build to finish.");
             e.printStackTrace();
         }
     }
@@ -66,38 +68,5 @@ public class Main {
         catch(IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static void printScopes(ProgramOp programOp){
-        System.out.println(programOp.getSymbolTable().getNomeScope()+" scope="+programOp.getSymbolTable()+"\n");
-        ArrayList<IsMainFunOp> funList = programOp.getFunList();
-        for(IsMainFunOp fun : funList){
-            System.out.println(fun.getFunOp().getSymbolTable().getNomeScope()+" scope="+fun.getFunOp().getSymbolTable()+"\n");
-            ArrayList<StatOp> statList = fun.getFunOp().getBody().getStatList();
-            System.out.println(scorriStat(statList));
-        }
-    }
-
-    private static String scorriStat(ArrayList<StatOp> statList){
-        String str = "";
-        for(StatOp stat : statList){
-            if(stat instanceof ForStatOp){
-                if(((ForStatOp) stat).getBody().getStatList() != null){
-                    str += scorriStat(((ForStatOp) stat).getBody().getStatList());
-                }
-                return str+((ForStatOp) stat).getSymbolTable().getNomeScope()+" scope="+((ForStatOp) stat).getSymbolTable()+"\n";
-            }
-            if(stat instanceof WhileOp){
-                if(((WhileOp) stat).getBody().getStatList() != null){
-                    str += scorriStat(((WhileOp) stat).getBody().getStatList());
-                }
-                return str+((WhileOp) stat).getSymbolTable().getNomeScope()+" scope="+((WhileOp) stat).getSymbolTable()+"\n";            }
-            if(stat instanceof IfStatOp){
-                if(((IfStatOp) stat).getBodyOp().getStatList() != null){
-                    str += scorriStat(((IfStatOp) stat).getBodyOp().getStatList());
-                }
-                return str+((IfStatOp) stat).getSymbolTable().getNomeScope()+" scope="+((IfStatOp) stat).getSymbolTable()+"\n";            }
-        }
-        return str;
     }
 }

@@ -22,7 +22,7 @@ class MainTest {
     String cOut;
 
     MainTest() throws FileNotFoundException {
-        File initialFile = new File("src/test/java/systemTest.txt");
+        File initialFile = new File("src/test/java/integrationTest.txt");
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
             throw new Error("FILE DI TEST NON TROVATO!");
