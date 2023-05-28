@@ -28,7 +28,10 @@ jobs:
 
       - name: Verify GCC installation
         run: gcc --version
-        
+
+      - name: Compile C program
+        run: gcc -o my_program test_files/c_out/cFileTest.c
+
       - name: List files
         run: ls -la
 
