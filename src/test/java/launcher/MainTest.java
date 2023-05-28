@@ -205,7 +205,7 @@ class MainTest {
         assertEquals(cOut,code);
 
         int exitCode = 99;
-        String cCompilerCmd = "gcc "+cFile;
+        String cCompilerCmd = "gcc "+cFile+" -lm";
         try {
             Process compileProcess = Runtime.getRuntime().exec(cCompilerCmd);
             exitCode = compileProcess.waitFor();

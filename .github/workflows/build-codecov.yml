@@ -30,7 +30,7 @@ jobs:
         run: gcc --version
 
       - name: Compile C program
-        run: gcc -o my_program test_files/c_out/cFileTest.c
+        run: gcc -o my_program test_files/c_out/cFileTest.c -lm
 
       - name: List files
         run: ls -la
