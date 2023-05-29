@@ -10,14 +10,14 @@ public class Main {
     public static final String GREEN = "\u001B[32m";
     public static final String RESET = "\u001B[0m";
     public static void main(String[] args) throws Exception {
-        String filePath = args[0];
-        File initialFile = new File(filePath);
+        String txt = args[0].split("/")[args[0].split("/").length-1];
+        String fileName = txt.substring(0,txt.length()-4);
+        File initialFile = new File(args[0]);
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
             throw new Error("FILE NOT FOUND!");
         }
         BufferedReader input = new BufferedReader(new InputStreamReader(in));
-        String fileName = args[1].substring(0,args[1].length()-4);
         String cOutPath = "C_out/"+ fileName +".c";
 
         System.out.println(GREEN+"Starting compiling "+fileName+"..."+GREEN+RESET);
@@ -38,7 +38,7 @@ public class Main {
 
         System.out.println("Starting C compiler...");
         Runtime rt = Runtime.getRuntime();
-        String cCompilerCmd = "gcc -o " + "executables/" + fileName + " " + cOutPath + " -lm";
+        String cCompilerCmd = "gcc -o executables/" + fileName + " " + cOutPath + " -lm";
         try {
             Process compileProcess = rt.exec(cCompilerCmd);
             int exitCode = compileProcess.waitFor();

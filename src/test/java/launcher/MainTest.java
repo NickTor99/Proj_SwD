@@ -22,7 +22,7 @@ class MainTest {
     String cOut;
 
     MainTest() throws FileNotFoundException {
-        File initialFile = new File("src/test/java/integrationTest.txt");
+        File initialFile = new File("src/test/integrationTest.txt");
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
             throw new Error("FILE DI TEST NON TROVATO!");
@@ -173,7 +173,7 @@ class MainTest {
                 "return pow((float)(a), (float)(b));\n" +
                 "}\n" +
                 "}\n";
-        cFile = "src/test/java/cFileTest.c";
+        cFile = "C_out/integrationTest.c";
     }
 
     // integration test, testing every component in cascade
@@ -205,7 +205,7 @@ class MainTest {
         assertEquals(cOut,code);
 
         int exitCode = 99;
-        String cCompilerCmd = "gcc "+cFile+" -lm";
+        String cCompilerCmd = "gcc -o executables/integrationTest "+cFile+" -lm";
         try {
             Process compileProcess = Runtime.getRuntime().exec(cCompilerCmd);
             exitCode = compileProcess.waitFor();

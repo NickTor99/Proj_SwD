@@ -22,7 +22,6 @@ public class SystemTest{
                 for (File file : valid_files) {
                     if (file.isFile()) {
                         args[0] = validDirPath+"/"+file.getName();
-                        args[1] = file.getName();
                         Main.main(args);
                     }
                 }
@@ -31,7 +30,6 @@ public class SystemTest{
                 for (File file : invalid_files) {
                     if (file.isFile()) {
                         args[0] = invalidDirPath+"/"+file.getName();
-                        args[1] = file.getName();
                         assertThrows(Throwable.class,() -> Main.main(args));
                     }
                 }
