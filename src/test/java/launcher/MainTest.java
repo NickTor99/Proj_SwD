@@ -173,7 +173,7 @@ class MainTest {
                 "return pow((float)(a), (float)(b));\n" +
                 "}\n" +
                 "}\n";
-        cFile = "test_files/c_out/cFileTest.c";
+        cFile = "src/test/java/cFileTest.c";
     }
 
     // integration test, testing every component in cascade
