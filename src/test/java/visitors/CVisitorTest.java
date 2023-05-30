@@ -124,6 +124,10 @@ class CVisitorTest {
         typeVisitor.visit(programOp);
         assertEquals(output,cVisitor.visit(programOp));
 
+        Collections.reverse(programOp.getVarDeclList());
+        CVisitorNew cVisitorNew = new CVisitorNew();
+        assertEquals(output,cVisitorNew.visit(programOp));
+
         varDeclList1.clear();
         VarDeclOp var7 = new VarDeclOp("STRING",new IdInit(new IdExprNode("ID","string1"),new BiExprNode("STR_CONCAT",new ConstExprNode("STRING_CONST","Hello"),new ConstExprNode("STRING_CONST"," World")),null));
         varDeclList1.add(var7);
@@ -132,6 +136,7 @@ class CVisitorTest {
         typeVisitor.visit(programOp2);
         cVisitor = new CVisitor();
         assertThrows(Error.class,() -> cVisitor.visit(programOp2));
+
     }
 
     @Test
@@ -460,5 +465,4 @@ class CVisitorTest {
         assertEquals("boolToString(idBool)",cVisitor.exprStringConverter(idBool));
         assertEquals("doubleToString(idReal)",cVisitor.exprStringConverter(idReal));
     }
-
 }

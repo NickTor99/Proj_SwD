@@ -10,6 +10,7 @@ public class Main {
     public static final String GREEN = "\u001B[32m";
     public static final String RESET = "\u001B[0m";
     public static void main(String[] args) throws Exception {
+        // reading the file that has to be compiled from the args
         String txt = args[0].split("/")[args[0].split("/").length-1];
         String fileName = txt.substring(0,txt.length()-4);
         File initialFile = new File(args[0]);
@@ -19,6 +20,7 @@ public class Main {
         }
         BufferedReader input = new BufferedReader(new InputStreamReader(in));
         String cOutPath = "C_out/"+ fileName +".c";
+
 
         System.out.println(GREEN+"Starting compiling "+fileName+"..."+GREEN+RESET);
         parser p = new parser(new Lexer(input));
@@ -31,7 +33,7 @@ public class Main {
         System.out.println("Semantic analysis done!");
         typeCheckerVisitor.visit(programOp);
 
-        CVisitor cGenerator = new CVisitor();
+        CVisitorNew cGenerator = new CVisitorNew();
         String cCode = cGenerator.visit(programOp);
         System.out.println("C code generation done!");
         fileGenerator(cCode,cOutPath);

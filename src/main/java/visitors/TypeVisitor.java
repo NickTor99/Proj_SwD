@@ -11,12 +11,7 @@ import nodes.*;
 public class TypeVisitor implements Visitor{
 
     private Stack<SymbolTable> activeStackScope;
-    private SymbolTable symbolTable;
     private boolean hasReturn = false;
-
-    public boolean isHasReturn() {
-        return hasReturn;
-    }
 
     public void setHasReturn(boolean hasReturn) {
         this.hasReturn = hasReturn;
@@ -66,8 +61,6 @@ public class TypeVisitor implements Visitor{
             visitReturnStatOp((ReturnStatOp) ast);
         }else if(ast instanceof UnExprNode){
             visitUnExprNode((UnExprNode) ast);
-        }else if(ast instanceof VarDeclOp){
-            visitVarDeclOp((VarDeclOp) ast);
         }else if(ast instanceof WhileOp){
             visitWhileOp((WhileOp) ast);
         }
@@ -149,7 +142,7 @@ public class TypeVisitor implements Visitor{
             for(IdInit idInit : idList){
                 IdExprNode id = idInit.getId();
                 id.accept(this);
-                idInit.setType(TypeChecker.AssignOpChecker(expr.getType(),id.getType()));
+                TypeChecker.AssignOpChecker(expr.getType(),id.getType());
             }
             node.setType(sym.VOID);
         }
@@ -160,7 +153,7 @@ public class TypeVisitor implements Visitor{
                     for(IdInit idInit : idList){
                         IdExprNode id = idInit.getId();
                         id.accept(this);
-                        idInit.setType(TypeChecker.AssignOpChecker(expr.getType(),id.getType()));
+                        TypeChecker.AssignOpChecker(expr.getType(),id.getType());
                     }
                 }
             }
@@ -198,7 +191,6 @@ public class TypeVisitor implements Visitor{
         if(varType == "VAR"){
             for(IdInit idInit : idInitList){
                 idInit.getId().accept(this);
-                idInit.setType(sym.VOID);
             }
         }
         else {
@@ -207,9 +199,8 @@ public class TypeVisitor implements Visitor{
                 idInit.getId().accept(this);
                 if(expr != null){
                     expr.accept(this);
-                    idInit.setType(TypeChecker.AssignOpChecker(expr.getType(),type));
+                    TypeChecker.AssignOpChecker(expr.getType(),type);
                 }
-                idInit.setType(sym.VOID);
             }
         }
     }
@@ -385,7 +376,6 @@ public class TypeVisitor implements Visitor{
         for(IdInit idInit : idInitLidt){
             ExprNode id = idInit.getId();
             id.accept(this);
-            idInit.setType(sym.VOID);
         }
         node.setType(sym.VOID);
     }

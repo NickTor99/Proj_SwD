@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import visitors.CVisitor;
+import visitors.CVisitorNew;
 import visitors.ScopingVisitor;
 import visitors.TypeVisitor;
 
@@ -17,12 +18,12 @@ class MainTest {
     ProgramOp programOp;
     ScopingVisitor scopingVisitor;
     TypeVisitor typeVisitor;
-    CVisitor cVisitor;
+    CVisitorNew cVisitor;
     String cFile;
     String cOut;
 
     MainTest() throws FileNotFoundException {
-        File initialFile = new File("src/test/integrationTest.txt");
+        File initialFile = new File("src/test/integration_test.txt");
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
             throw new Error("FILE DI TEST NON TROVATO!");
@@ -30,7 +31,7 @@ class MainTest {
         input = new BufferedReader(new InputStreamReader(in));
         scopingVisitor = new ScopingVisitor();
         typeVisitor = new TypeVisitor();
-        cVisitor = new CVisitor();
+        cVisitor = new CVisitorNew();
         cOut = "#include <stdio.h>\n" +
                 "#include <stdlib.h>\n" +
                 "#include <string.h>\n" +

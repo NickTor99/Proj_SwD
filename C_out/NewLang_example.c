@@ -6,7 +6,8 @@
 #define true 1
 #define false 0
 void inizio(int,char **);
-void forTest();
+int fattoriale(int);
+float somma_di_n(int);
 int divIntera(float,float,char **);
 int fibonacci(int);
 float operazione(int,float,float);
@@ -34,13 +35,13 @@ char* s = malloc(256);
 sprintf(s, "%s%s", s1, i);
 return s;
 }
-#define setSize (int) (10 + costante)
-int costante = 5;
-#define var1 (int) (!((true && false)) || true)
+char *menu = "(1) somma di due numeri\n(2) moltiplicazione di due numeri\n(3) divisione intera tra due numeri\n(4) elevamento a potenza\n(5) succesione di fibonacci\n(6) calcolo fattoriale di n\n(7) somma di n numeri";
 char var2;
 char var3;
 #define var4 (char) "c"
-char *menu = "(1) somma di due numeri\n(2) moltiplicazione di due numeri\n(3) divisione intera tra due numeri\n(4) elevamento a potenza\n(5) succesione di fibonacci\n";
+#define var1 (int) (!((true && false)) || true)
+int costante = 5;
+#define setSize (int) (10 + costante)
 // MAIN FUNCTION
 int main(int argc, char** argv){
 inizio(0,argv);
@@ -76,20 +77,39 @@ printf("\n");
 }
 }
 else{
-if((op == 5)){
+if(((op == 5) || (op == 6))){
 printf("inserisci un numero intero positivo ");
 scanf("%d",&num);
 while((num < 0)){
 printf("il numero deve essere positivo! Prova ad inserirlo di nuovo ");
 scanf("%d",&num);
 }
+if((op == 5)){
 printf("%s","il risultato e': ");
 printf("%d",fibonacci(num));
+printf("\n");
+}
+if((op == 6)){
+printf("%s","il risultato e': ");
+printf("%d",fattoriale(num));
+printf("\n");
+}
+}
+else{
+if((op == 7)){
+float risultato;
+int n;
+printf("quanti numeri vuoi inserire? ");
+scanf("%d",&n);
+risultato = somma_di_n(n);
+printf("%s","il risultato e': ");
+printf("%f",risultato);
 printf("\n");
 }
 else{
 printf("%s","hai inserito un numero sbagliato!");
 printf("\n");
+}
 }
 }
 printf("vuoi continuare? (si/no)");
@@ -98,14 +118,26 @@ scanf("%s",ans);
 }
 printf("%s","Arrivederci :)");
 }
-void forTest(){
-int i;
-for(i = 0;i <= 5;i++){
-if((i <= 2)){
-if((setSize != 5)){
+int fattoriale(int n){
+int result;
+if((n == 0)){
+return 1;
+}
+else{
+result = (n * fattoriale((n - 1)));
+return result;
 }
 }
+float somma_di_n(int n){
+float somma = 0.0;
+while((n != 0)){
+float num;
+printf("inserisci un numero: ");
+scanf("%f",&num);
+somma = (somma + num);
+n = (n - 1);
 }
+return somma;
 }
 int divIntera(float a,float b,char **size){
 int result = (a / b);

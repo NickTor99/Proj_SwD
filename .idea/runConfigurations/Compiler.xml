@@ -2,7 +2,7 @@
   <configuration default="false" name="Compiler" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="launcher.Main" />
     <module name="Proj_SwD" />
-    <option name="PROGRAM_PARAMETERS" value="NewLang_exemple.txt" />
+    <option name="PROGRAM_PARAMETERS" value="NewLang_example.txt" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

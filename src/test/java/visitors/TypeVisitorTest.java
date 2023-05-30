@@ -152,8 +152,6 @@ class TypeVisitorTest {
         typeVisitor.visit(varDecl1);
         typeVisitor.visit(varDecl2);
 
-        assertEquals(sym.VOID,v1.getType());
-        assertEquals(sym.VOID,v2.getType());
     }
 
     @Test
