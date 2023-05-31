@@ -30,42 +30,42 @@ public class CVisitorNew implements Visitor{
     @Override
     public String visit(AbstractSyntaxNode ast) {
         codiceC = "";
-        if(ast instanceof ProgramOp){
-            visitProgramOp((ProgramOp) ast);
-        }else if(ast instanceof VarDeclOp){
-            visitVarDeclOp((VarDeclOp) ast);
-        }else if(ast instanceof IsMainFunOp){
-            visitFunOp((IsMainFunOp) ast);
-        }else if(ast instanceof AssignOp){
-            visitAssignOp((AssignOp) ast);
-        }else if(ast instanceof BiExprNode){
-            visitBiExprNode((BiExprNode) ast);
-        }else if(ast instanceof BodyOp){
-            visitBodyOp((BodyOp) ast);
-        }else if(ast instanceof CallFunOp){
-            visitCallFunOp((CallFunOp) ast);
-        }else if(ast instanceof ConstExprNode){
-            codiceC = visitConstExprNode((ConstExprNode) ast);
-        }else if(ast instanceof ForStatOp){
-            visitForStatOp((ForStatOp) ast);
+        if(ast instanceof BodyOp){
+            visitBodyOp(ast);
         }else if(ast instanceof IdExprNode){
-            codiceC = visitIdExprNode((IdExprNode) ast);
+            codiceC = visitIdExprNode(ast);
         }else if(ast instanceof IfStatOp){
-            visitIfStatOp((IfStatOp) ast);
+            visitIfStatOp(ast);
+        }else if(ast instanceof VarDeclOp){
+            visitVarDeclOp(ast);
+        }else if(ast instanceof BiExprNode){
+            visitBiExprNode(ast);
+        }else if(ast instanceof ConstExprNode){
+            codiceC = visitConstExprNode(ast);
+        }else if(ast instanceof IsMainFunOp){
+            visitFunOp(ast);
+        }else if(ast instanceof AssignOp){
+            visitAssignOp(ast);
+        }else if(ast instanceof CallFunOp){
+            visitCallFunOp(ast);
+        }else if(ast instanceof ForStatOp){
+            visitForStatOp(ast);
         }else if(ast instanceof ReadOp){
-            visitReadOp((ReadOp) ast);
+            visitReadOp(ast);
         }else if(ast instanceof WriteOp){
-            visitWriteOp((WriteOp) ast);
+            visitWriteOp(ast);
         }else if(ast instanceof ReturnStatOp){
-            visitReturnStatOp((ReturnStatOp) ast);
+            visitReturnStatOp(ast);
         }else if(ast instanceof UnExprNode){
-            codiceC = visitUnExprNode((UnExprNode) ast);
+            codiceC = visitUnExprNode(ast);
         }else if(ast instanceof WhileOp){
-            visitWhileOp((WhileOp) ast);
+            visitWhileOp(ast);
         }else if(ast instanceof CallParamOp){
-            visitCallParamOp((CallParamOp) ast);
+            visitCallParamOp(ast);
         }else if(ast instanceof ParDeclOp){
-            visitParDeclOp((ParDeclOp) ast);
+            visitParDeclOp(ast);
+        }else if(ast instanceof ProgramOp){
+            visitProgramOp(ast);
         }
         return codiceC;
     }
@@ -403,7 +403,7 @@ public class CVisitorNew implements Visitor{
             codiceC += "printf(";
             codiceC += getFormato(expr.getType())+","+expr.accept(this) + ");\n";
         }
-        if(((WriteOp) node).getWriteType() == "WRITELN"){
+        if(((WriteOp) node).getWriteType().equals("WRITELN")){
             codiceC += "printf(\"\\n\");\n";
         }
     }
@@ -433,41 +433,43 @@ public class CVisitorNew implements Visitor{
         else {
             codiceC += "(";
             codiceC += expr1.accept(this);
-            if (((BiExprNode) node).getNome().equals("PLUS")) {
-                codiceC += " + ";
-            }
-            if (((BiExprNode) node).getNome().equals("MINUS")) {
-                codiceC += " - ";
-            }
-            if (((BiExprNode) node).getNome().equals("TIMES")) {
-                codiceC += " * ";
-            }
-            if (((BiExprNode) node).getNome().equals("DIV")) {
-                codiceC += " / ";
-            }
-            if (((BiExprNode) node).getNome().equals("AND")) {
-                codiceC += " && ";
-            }
-            if (((BiExprNode) node).getNome().equals("OR")) {
-                codiceC += " || ";
-            }
-            if (((BiExprNode) node).getNome().equals("GT")) {
-                codiceC += " > ";
-            }
-            if (((BiExprNode) node).getNome().equals("GE")) {
-                codiceC += " >= ";
-            }
-            if (((BiExprNode) node).getNome().equals("LT")) {
-                codiceC += " < ";
-            }
-            if (((BiExprNode) node).getNome().equals("LE")) {
-                codiceC += " <= ";
-            }
-            if (((BiExprNode) node).getNome().equals("EQ")) {
-                codiceC += " == ";
-            }
-            if (((BiExprNode) node).getNome().equals("NE")) {
-                codiceC += " != ";
+            switch (((BiExprNode) node).getNome()) {
+                case "PLUS":
+                    codiceC += " + ";
+                    break;
+                case "MINUS":
+                    codiceC += " - ";
+                    break;
+                case "TIMES":
+                    codiceC += " * ";
+                    break;
+                case "DIV":
+                    codiceC += " / ";
+                    break;
+                case "AND":
+                    codiceC += " && ";
+                    break;
+                case "OR":
+                    codiceC += " || ";
+                    break;
+                case "GT":
+                    codiceC += " > ";
+                    break;
+                case "GE":
+                    codiceC += " >= ";
+                    break;
+                case "LT":
+                    codiceC += " < ";
+                    break;
+                case "LE":
+                    codiceC += " <= ";
+                    break;
+                case "EQ":
+                    codiceC += " == ";
+                    break;
+                case "NE":
+                    codiceC += " != ";
+                    break;
             }
             codiceC += expr2.accept(this);
             codiceC += ")";
@@ -521,25 +523,6 @@ public class CVisitorNew implements Visitor{
             codiceC += ");\n";
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public String typeConverter(String type){
         switch (type) {
