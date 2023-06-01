@@ -33,7 +33,7 @@ public class Main {
         System.out.println("Semantic analysis done!");
         typeCheckerVisitor.visit(programOp);
 
-        CVisitorNew cGenerator = new CVisitorNew();
+        CVisitor cGenerator = new CVisitor();
         String cCode = cGenerator.visit(programOp);
         System.out.println("C code generation done!");
         fileGenerator(cCode,cOutPath);

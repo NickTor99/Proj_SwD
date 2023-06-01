@@ -123,11 +123,6 @@ class CVisitorTest {
         scopingVisitor.visit(programOp);
         typeVisitor.visit(programOp);
         assertEquals(output,cVisitor.visit(programOp));
-
-        Collections.reverse(programOp.getVarDeclList());
-        CVisitorNew cVisitorNew = new CVisitorNew();
-        assertEquals(output,cVisitorNew.visit(programOp));
-
         varDeclList1.clear();
         VarDeclOp var7 = new VarDeclOp("STRING",new IdInit(new IdExprNode("ID","string1"),new BiExprNode("STR_CONCAT",new ConstExprNode("STRING_CONST","Hello"),new ConstExprNode("STRING_CONST"," World")),null));
         varDeclList1.add(var7);

@@ -6,7 +6,7 @@ import launcher.Lexer;
 import org.openjdk.jmh.annotations.*;
 import visitors.ScopingVisitor;
 import visitors.TypeVisitor;
-import visitors.CVisitorNew;
+import visitors.CVisitor;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 public class CVisitorNewBenchmark {
 
-    CVisitorNew cVisitor;
+    CVisitor cVisitor;
     private ArrayList<ProgramOp> programList;
 
     @Setup
@@ -37,7 +37,7 @@ public class CVisitorNewBenchmark {
             typeVisitor.visit(programOp);
             programList.add(programOp);
         }
-        cVisitor = new CVisitorNew();
+        cVisitor = new CVisitor();
     }
 
     @Benchmark

@@ -1,11 +1,8 @@
 package launcher;
 
 import nodes.ProgramOp;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import visitors.CVisitor;
-import visitors.CVisitorNew;
 import visitors.ScopingVisitor;
 import visitors.TypeVisitor;
 
@@ -13,16 +10,16 @@ import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MainTest {
+class IntegrationTest {
     BufferedReader input;
     ProgramOp programOp;
     ScopingVisitor scopingVisitor;
     TypeVisitor typeVisitor;
-    CVisitorNew cVisitor;
+    CVisitor cVisitor;
     String cFile;
     String cOut;
 
-    MainTest() throws FileNotFoundException {
+    IntegrationTest() throws FileNotFoundException {
         File initialFile = new File("src/test/integration_test.txt");
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
@@ -31,7 +28,7 @@ class MainTest {
         input = new BufferedReader(new InputStreamReader(in));
         scopingVisitor = new ScopingVisitor();
         typeVisitor = new TypeVisitor();
-        cVisitor = new CVisitorNew();
+        cVisitor = new CVisitor();
         cOut = "#include <stdio.h>\n" +
                 "#include <stdlib.h>\n" +
                 "#include <string.h>\n" +
@@ -205,6 +202,7 @@ class MainTest {
 
         assertEquals(cOut,code);
 
+        // generation of executable file
         int exitCode = 99;
         String cCompilerCmd = "gcc -o executables/integrationTest "+cFile+" -lm";
         try {

@@ -4,18 +4,18 @@ import nodes.ProgramOp;
 import launcher.parser;
 import launcher.Lexer;
 import org.openjdk.jmh.annotations.*;
+import visitors.CVisitorOld;
 import visitors.ScopingVisitor;
 import visitors.TypeVisitor;
-import visitors.CVisitor;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 @Fork(5)
 @State(Scope.Benchmark)
-public class CVisitorBenchmark {
+public class CVisitorOldBenchmark {
 
-    CVisitor cVisitor;
+    CVisitorOld cVisitor;
     private ArrayList<ProgramOp> programList;
 
     @Setup
@@ -37,7 +37,7 @@ public class CVisitorBenchmark {
             typeVisitor.visit(programOp);
             programList.add(programOp);
         }
-        cVisitor = new CVisitor();
+        cVisitor = new CVisitorOld();
     }
 
     @Benchmark
