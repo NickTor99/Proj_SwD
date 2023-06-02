@@ -5,5 +5,5 @@ COPY pom.xml ./
 COPY src ./src
 COPY NewLang_example.txt ./
 RUN mvn clean compile assembly:single
-ENTRYPOINT ["java", "-cp","target/maven-docker-jar-with-dependencies.jar", "launcher.Main"]
+ENTRYPOINT ["java", "-cp","target/maven-docker-jar-with-dependencies.jar", "launcher.Launcher"]
 EXPOSE 8080

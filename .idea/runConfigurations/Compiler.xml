@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Compiler" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="launcher.Main" />
+    <option name="MAIN_CLASS_NAME" value="launcher.Launcher" />
     <module name="Proj_SwD" />
     <option name="PROGRAM_PARAMETERS" value="NewLang_example.txt" />
     <method v="2">

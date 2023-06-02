@@ -1,16 +1,11 @@
 package visitors;
 
-import exceptions.TypeMismatchException;
-import launcher.Lexer;
-import launcher.parser;
-import launcher.sym;
 import nodes.*;
 import table.SymbolRecord;
 import table.SymbolTable;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
