@@ -25,7 +25,7 @@ public class Launcher {
             throw new Error("Invalid file name. Some characters are not allowed");
         }
         fileName = fileName.substring(0,fileName.length()-4);
-        File initialFile = new File(FilenameUtils.getName(args[0]));
+        File initialFile = new File(args[0]);
         InputStream in = new FileInputStream(initialFile);
         if(in == null){
             throw new Error("FILE NOT FOUND!");
