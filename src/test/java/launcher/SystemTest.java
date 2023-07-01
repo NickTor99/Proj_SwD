@@ -36,4 +36,18 @@ public class SystemTest{
             }
         }
     }
+
+    @Test
+    void wrongInputFileTest(){
+        String[] args = new String[1];
+
+        args[0] = "filename.doc";
+        assertThrows(Throwable.class,() -> Launcher.main(args));
+
+        args[0] = "file@name.txt";
+        assertThrows(Throwable.class,() -> Launcher.main(args));
+
+        args[0] = "filename.txt";
+        assertThrows(Throwable.class,() -> Launcher.main(args));
+    }
 }
