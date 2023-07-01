@@ -23,9 +23,11 @@ public class Launcher {
         }
         fileName = fileName.substring(0,fileName.length()-4);
         File initialFile = new File(args[0]);
-        InputStream in = new FileInputStream(initialFile);
-        if(in == null){
-            throw new Error("FILE NOT FOUND!");
+        InputStream in = null;
+        try{
+            in = new FileInputStream(initialFile);
+        }catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
         }
         BufferedReader input = new BufferedReader(new InputStreamReader(in));
 
