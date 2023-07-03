@@ -4,13 +4,13 @@
 The project aims to apply software dependability paradigms to enhance the reliability of the compiler code. It involves the implementation and study of various phases of a compiler. The project utilizes the NewLang language, which encompasses key structures found in procedural programming languages (such as functions, if statements, while loops, for loops, etc.) along with additional slightly more complex structures that aid in writing specific programs.
 
 ## Tools Used
-The project leverages several tools to ensure code quality, test coverage, and reliability. These tools are already included in the repository, so there is no need for additional configuration. Simply download the dependencies through the provided package manager.
+The project uses several tools to ensure code quality, test coverage, and reliability. These tools are already included in the repository, so there is no need for additional configuration. Simply download the dependencies through the provided package manager.
 
 The tools used in the project include:
 
 - SonarCloud: Used to conduct a code quality analysis and ensure adherence to best practices.
 - Docker Container: Provides a containerized environment for consistent development and deployment.
-- Jacoco, Codecov, and Pitest: Utilized for evaluating the test suite with JUnit and assessing code coverage and mutation testing.
+- Jacoco, Codecov, and Pitest: Utilized for evaluating the test suite with JUnit and evaluate code coverage and mutation testing.
 - Ecocode: Assists in identifying and resolving potential code issues and bugs.
 - Java Microbenchmark Harness: Allows for the benchmarking and performance analysis of the code.
 - Evosuite and Randoop: Employed for the automatic generation of tests to enhance test coverage.
