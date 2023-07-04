@@ -6,7 +6,7 @@ for EXEFILE in executables/valid*.exe; do
   echo "./$EXEFILE" >> "$PROJECT_NAME.report.txt"
   ./"$EXEFILE" >> "$PROJECT_NAME.report.txt" 2>&1
 
-  for TESTIN in "src/test/valid_in_out/$TESTNAME/$TESTNAME"_in; do
+  for TESTIN in src/test/valid_in_out/$TESTNAME/${TESTNAME}_in.txt; do
     TESTINNAME=$(basename -- "$TESTIN")
     TESTOUT="$OUTPUTDIR/${TESTINNAME/_in/_out}"
     if [ -s "$EXEFILE" ]; then
