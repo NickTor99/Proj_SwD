@@ -1,0 +1,41 @@
+
+
+
+
+la somma  incrementata  è 
+piccola
+
+
+
+
+ ed è pari a 
+7.200000
+vuoi continuare? (1/si 0/no) inserisci un intero: inserisci un reale: 
+
+
+
+
+la somma  incrementata  è 
+piccola
+
+
+
+
+ ed è pari a 
+40.299999
+vuoi continuare? (1/si 0/no): inserisci un intero: inserisci un reale:
+
+
+
+
+la somma  incrementata  è 
+piccola
+
+
+
+
+ ed è pari a 
+6.000000
+vuoi continuare? (1/si 0/no):
+
+ciao

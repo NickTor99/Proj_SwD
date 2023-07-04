@@ -1,0 +1,74 @@
+|*
+ Programma esemplificativo del linguaggio NewLang
+|
+
+var c << 1;
+
+def sommac(integer a, d | float b | out string size): float
+{
+	float result;
+
+
+	result  <<  a + b + c + d;
+
+	if result > 100 then{
+		var valore << "grande";
+ 		size << valore; }
+	else {
+		var valore << "piccola";
+ 		size << valore;
+	}
+
+	return result;
+}
+
+def stampa(string messaggio): void {
+
+    integer a;
+    integer i;
+	for x << 4 to 1 loop {
+		("") -->! ;
+	}
+
+	(messaggio) -->! ;
+
+}
+
+
+start:
+def esercizio() : void {
+
+    var a << 1, b << 2.2, x << 3;
+
+    string taglia;
+    var ans << 0;
+    float risultato << sommac(a, x, b, taglia);
+
+
+    stampa("la somma  incrementata  è " );
+    (taglia) -->!;
+     stampa(" ed è pari a " );
+     (risultato) -->!;
+
+	("vuoi continuare? (1/si 0/no)")  -->! ;
+	ans <--;
+    while ans = 1 loop {
+
+        a <-- "inserisci un intero:";
+        b <-- "inserisci un reale:";
+        risultato << sommac(a, x, b, taglia);
+        stampa("la somma  incrementata  è " );
+        (taglia) -->!;
+        stampa(" ed è pari a " );
+        (risultato) -->!;
+        ans <-- "vuoi continuare? (1/si 0/no):";
+    }
+
+    ("") -->! ;
+    ("ciao") -->;
+}
+
+
+
+
+

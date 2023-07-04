@@ -1,0 +1,17 @@
+2
+
+
+
+
+la somma  incrementata  è 
+piccola
+
+
+
+
+ ed è pari a 
+7.200000
+vuoi continuare? (1/si 0/no)
+
+
+ciao
