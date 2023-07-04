@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Assicuriamoci di avere il nome del progetto
-PROJECT_NAME="NomeProgetto"
+PROJECT_NAME="Proj_SwD"
 
 # Per essere sicuri che il file report.txt sia nuovo
 rm -f "$PROJECT_NAME.report.txt"
@@ -33,9 +33,14 @@ for EXEFILE in executables/valid*.exe; do
       else
         echo "Test $TESTNAME su $TESTIN fallito" >> "$PROJECT_NAME.report.txt"
       fi
+
+      echo "" >> "$PROJECT_NAME.report.txt"
+      echo "Contenuto del file di output $TESTOUT:" >> "$PROJECT_NAME.report.txt"
+      cat "$TESTOUT" >> "$PROJECT_NAME.report.txt"
     else
       echo "File di input $TESTIN non trovato" >> "$PROJECT_NAME.report.txt"
     fi
   done
 done
+
 
