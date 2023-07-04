@@ -8,7 +8,7 @@ for EXEFILE in executables/valid*.exe; do
 
   for TESTIN in src/test/valid_in_out/$TESTNAME/${TESTNAME}_in.txt; do
     TESTINNAME=$(basename -- "$TESTIN")
-    TESTOUT="$OUTPUTDIR/${TESTINNAME/_in/_out}"
+    TESTOUT="src/test/valid_in_out/$TESTNAME/${TESTINNAME}_out.txt"
     if [ -s "$EXEFILE" ]; then
       ./"$EXEFILE" <"$TESTIN" &>"$TESTOUT"
     else
