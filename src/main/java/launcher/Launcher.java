@@ -59,7 +59,7 @@ public class Launcher {
             } else {
                 System.err.println("Something went wrong while compiling with GCC");
             }
-        } catch (IOException e) {
+        }catch (IOException e) {
             System.err.println("Error executing GCC build command");
             e.printStackTrace();
         } catch (InterruptedException e) {
