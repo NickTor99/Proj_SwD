@@ -1,0 +1,24 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 1.11
+
+      - name: Run tests
+        run: |
+          chmod +x run_tests.sh
+          ./run_tests.sh
