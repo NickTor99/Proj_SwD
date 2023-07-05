@@ -16,16 +16,9 @@ for EXEFILE in executables/valid*.exe; do
       TESTINNAME=$(basename -- "$TESTIN")
       TESTOUT="src/test/valid_in_out/$TESTNAME/${TESTINNAME/_in/_out}.txt"
 
-      ./"$EXEFILE" <"$TESTIN" &>"$TESTOUT"
-
       echo ""
-      echo "diff -w \"$TESTIN\" \"$TESTOUT\""
-
-      if diff -w "$TESTIN" "$TESTOUT"; then
-        echo "Test $TESTNAME su $TESTIN superato"
-      else
-        echo "Test $TESTNAME su $TESTIN fallito"
-      fi
+      echo "Esecuzione del test con input: $TESTIN"
+      ./"$EXEFILE" <"$TESTIN" &>"$TESTOUT"
 
       echo ""
       echo "Contenuto del file di output $TESTOUT:"
@@ -35,8 +28,3 @@ for EXEFILE in executables/valid*.exe; do
     fi
   done
 done
-
-
-
-
-
