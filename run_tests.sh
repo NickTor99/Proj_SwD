@@ -1,8 +1,5 @@
 #!/bin/bash
-
-# Assicuriamoci di avere il nome del progetto
-#!/bin/bash
-
+echo "porco dio"
 for EXEFILE in executables/valid*.exe; do
   TESTNAME=$(basename -- "$EXEFILE" .exe)
   echo ""
@@ -18,6 +15,9 @@ for EXEFILE in executables/valid*.exe; do
 
       echo ""
       echo "Esecuzione del test con input: $TESTIN"
+      echo "Contenuto del file di input $TESTIN:"
+      cat "$TESTIN"
+
       ./"$EXEFILE" <"$TESTIN" &>"$TESTOUT"
 
       echo ""
