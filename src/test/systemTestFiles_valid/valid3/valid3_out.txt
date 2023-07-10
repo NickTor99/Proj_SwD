@@ -1,28 +1,11 @@
-
-
-
-
 la somma  incrementata  è 
 piccola
-
-
-
-
  ed è pari a 
 7.200000
 vuoi continuare? (si/no) - inserisci due volte la risposta inserisci un intero:inserisci un reale:
-
-
-
-
 la somma  incrementata  è 
 piccola
-
-
-
-
  ed è pari a 
 18.000000
-vuoi continuare? (si/no):no
-
+vuoi continuare? (si/no):
 ciao

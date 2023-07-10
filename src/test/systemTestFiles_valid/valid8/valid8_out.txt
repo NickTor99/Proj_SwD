@@ -6,4 +6,3 @@
 6) Potenza
 7) Fibonacci
 Inserisci operazione:
-

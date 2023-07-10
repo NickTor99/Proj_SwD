@@ -7,14 +7,12 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Run tests
-        run:
-          chmod +x run_tests.sh
-          ./run_tests.sh
-
+        run: |
+          run_tests.bat

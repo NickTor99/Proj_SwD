@@ -15,7 +15,28 @@ public class SystemTest{
         File invalidDir = new File(invalidDirPath);
         String[] args = new String[2];
 
-        if (validDir.isDirectory() && invalidDir.isDirectory()) {
+        if(validDir.isDirectory() && invalidDir.isDirectory()){
+            File[] valid_dirs = validDir.listFiles();
+            File[] invalid_files = invalidDir.listFiles();
+            for(File valid : valid_dirs){
+                for(File script : valid.listFiles()){
+                    if(script.getName().matches("^[^_]+$")){
+                        args[0] = validDirPath + "/"+script.getName().replaceAll("\\.txt$", "")+"/" + script.getName();
+                        Launcher.main(args);
+                    }
+                }
+            }
+            if (invalid_files != null) {
+                for (File file : invalid_files) {
+                    if (file.isFile()) {
+                        args[0] = invalidDirPath+"/"+file.getName();
+                        assertThrows(Throwable.class,() -> Launcher.main(args));
+                    }
+                }
+            }
+        }
+
+        /*if (validDir.isDirectory() && invalidDir.isDirectory()) {
             File[] valid_files = validDir.listFiles();
             File[] invalid_files = invalidDir.listFiles();
             if (valid_files != null) {
@@ -34,7 +55,7 @@ public class SystemTest{
                     }
                 }
             }
-        }
+        }*/
     }
 
     @Test

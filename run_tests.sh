@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "porco dio"
 for EXEFILE in executables/valid*.exe; do
   TESTNAME=$(basename -- "$EXEFILE" .exe)
   echo ""
