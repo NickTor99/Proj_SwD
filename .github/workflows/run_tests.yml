@@ -15,4 +15,4 @@ jobs:
 
       - name: Run tests
         run: |
-          run_tests.bat
+          .\run_tests.bat
