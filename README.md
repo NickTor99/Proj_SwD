@@ -22,6 +22,7 @@ The project incorporates the following GitHub Actions for automation:
 - Codecov: Performs automatic execution and analysis of test coverage, providing insights into the effectiveness of the test suite.
 - SonarCloud: Automatically analyzes the code for quality issues, identifying potential bugs, vulnerabilities, and maintaining code standards.
 - Docker Container: Facilitates the automatic building of the container, ensuring a consistent and reproducible development environment.
+- Run_tests: It executes the run_tests.bat script, useful for the final phase of system testing, as it runs the compiled programs with specific inputs and checks their correct execution by comparing the actual program output with the expected one.
 
 ## Installation
 To set up the project, follow these steps:
